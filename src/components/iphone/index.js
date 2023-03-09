@@ -61,7 +61,7 @@ export default class Iphone extends Component {
 		return (
 			<div class={ style.container }>
 				<div class={ style.header }> 
-					<div class={ style.city }>{ this.state.locate }</div>			<!-- these won't show until data is fetched>
+					<div class={ style.city }>{ this.state.locate }</div>			
 					<div class={ style.conditions }>{ this.state.cond }</div>
 					<span class={ tempStyles }>{ this.state.temp }</span>
 				</div>
