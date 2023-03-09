@@ -34,6 +34,10 @@ export default class Iphone extends Component {
 		this.setState({ display: false });
 	}
 
+
+
+
+
 	// the main render method for the iphone component
 	render() {
 		// check if temperature data is fetched, if so add the sign styling to the page
@@ -54,6 +58,10 @@ export default class Iphone extends Component {
 			</div>
 		);
 	}
+
+
+
+	
 
 	parseResponse = (parsed_json) => {
 		var location = parsed_json['name'];
