@@ -71,8 +71,9 @@ export default class Iphone extends Component {
 				<div class={ style.details }></div>
 				<div class= { style_iphone.container }> 
 					{ this.state.display ? <Button class={ style_iphone.button } clickFunction={ this.fetchWeatherData }/ > : null }
-					{<Widget element= {"zareef"} ></Widget> }
 				</div>
+				<div>{<Widget element= {"zareef"} ></Widget> }</div>
+
 			</div>
 		);
 	}
