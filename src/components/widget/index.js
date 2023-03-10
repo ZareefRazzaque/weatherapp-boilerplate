@@ -1,13 +1,10 @@
 import {h, render , Component} from 'preact';
 
 export default class Widget extends Component {
-    constructor(element, coordinates){
-        this.element = element 
-        this.coordinates = coordinates
-    }
+
 
     render(){
-
+        let element = this.props.element
         return(
             <div>
                 <p>
