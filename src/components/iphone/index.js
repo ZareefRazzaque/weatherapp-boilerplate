@@ -63,6 +63,9 @@ export default class Iphone extends Component {
 		// display all weather data
 		return (
 			<div class={ style.container }>
+
+
+				
 				<div class={ style.header }> 
 					<div class={ style.city }>{ this.state.locate }</div>			
 					<div class={ style.conditions }>{ this.state.cond }</div>
