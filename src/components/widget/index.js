@@ -9,6 +9,7 @@ export default class Widget extends Component {
             <div>
                 <p>
                     This is a test, this is a test, this is a test
+                    {element}
                 </p>
             </div>
         )
