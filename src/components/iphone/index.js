@@ -3,6 +3,7 @@ import { h, render, Component } from 'preact';
 // import stylesheets for ipad & button
 import style from './style';
 import style_iphone from '../button/style_iphone';
+import widget_style from '../widget/widget_style.less'
 // import jquery for API calls
 import $ from 'jquery';
 // import the Button component
