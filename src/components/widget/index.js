@@ -10,7 +10,7 @@ export default class Widget extends Component {
             scrolling: false,
             ychange:0,
             yinitial:0,
-            position:this.props.position
+            position:this.props.originalheight
         }
 
 

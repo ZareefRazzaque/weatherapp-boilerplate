@@ -81,10 +81,14 @@ export default class Iphone extends Component {
 					{ this.state.display ? <Button class={ style_iphone.button } clickFunction={ this.fetchWeatherData }/ > : null }
 				</div>
 				<div>
-					{<Widget position={200} howleft= {"220px"} input ={basicWeather}></Widget> }
-					{<Widget position={430} howleft= {"20px"} input ={basicWeather}></Widget> }
-					{<Widget position={200} howleft= {"20px"} input ={basicWeather}></Widget> }
-					{<Widget position={430} howleft= {"220px"} input ={basicWeather}></Widget> }
+
+
+					{/*custom widgets class here, they require a position   */}
+					{<Widget originalheight={200} howleft= {"220px"} input ={basicWeather}></Widget> }
+					{<Widget originalheight={430} howleft= {"20px"} input ={basicWeather}></Widget> }
+					{<Widget originalheight={200} howleft= {"20px"} input ={basicWeather}></Widget> }
+					{<Widget originalheight={430} howleft= {"220px"} input ={basicWeather}></Widget> }
+					
 				</div>
 
 			</div>
