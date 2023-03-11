@@ -54,15 +54,17 @@ export default class Iphone extends Component {
 
 
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//extra html content
-	
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// the main render method for the iphone component
 	render() {
 		// check if temperature data is fetched, if so add the sign styling to the page
 		const tempStyles = this.state.temp ? `${style.temperature} ${style.filled}` : style.temperature;
 		
+		
+		///////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		let basicWeather = <div> <div> </div> </div>
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// display all weather data
 		return (
 			<div class={ style.container }>
@@ -78,11 +80,12 @@ export default class Iphone extends Component {
 				<div class= { style_iphone.container }> 
 					{ this.state.display ? <Button class={ style_iphone.button } clickFunction={ this.fetchWeatherData }/ > : null }
 				</div>
-				<div>{<Widget howleft= {"20px"}
-				
-				
-				
-				></Widget> }</div>
+				<div>
+					{<Widget position={200} howleft= {"220px"} input ={basicWeather}></Widget> }
+					{<Widget position={430} howleft= {"20px"} input ={basicWeather}></Widget> }
+					{<Widget position={200} howleft= {"20px"} input ={basicWeather}></Widget> }
+					{<Widget position={430} howleft= {"220px"} input ={basicWeather}></Widget> }
+				</div>
 
 			</div>
 		);

@@ -10,7 +10,7 @@ export default class Widget extends Component {
             scrolling: false,
             ychange:0,
             yinitial:0,
-            position:0
+            position:this.props.position
         }
 
 
@@ -59,13 +59,12 @@ export default class Widget extends Component {
 
     render(){
         const {position} = this.state
-        const {howleft, details} = this.props
+        const {howleft, input} = this.props
 
-        let element = this.props.element
         return(
             <div class = {widget_style.box} style={{position: "absolute", top: position, left:howleft }}>
                 <p>
-                    
+                    {input}
                 </p>
             </div>
 
