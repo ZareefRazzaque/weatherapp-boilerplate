@@ -55,6 +55,9 @@ export default class Iphone extends Component {
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//extra html content
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// the main render method for the iphone component
 	render() {
 		// check if temperature data is fetched, if so add the sign styling to the page
@@ -75,7 +78,11 @@ export default class Iphone extends Component {
 				<div class= { style_iphone.container }> 
 					{ this.state.display ? <Button class={ style_iphone.button } clickFunction={ this.fetchWeatherData }/ > : null }
 				</div>
-				<div>{<Widget element= {"zareef"} ></Widget> }</div>
+				<div>{<Widget howleft= {"20px"}
+				
+				
+				
+				></Widget> }</div>
 
 			</div>
 		);

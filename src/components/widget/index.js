@@ -57,20 +57,15 @@ export default class Widget extends Component {
     }
 
 
-
-
-
-
     render(){
-        const {ychange, position} = this.state
+        const {position} = this.state
+        const {howleft, details} = this.props
 
         let element = this.props.element
         return(
-            <div class = {widget_style.box} style={{position: "absolute", top: position }}>
+            <div class = {widget_style.box} style={{position: "absolute", top: position, left:howleft }}>
                 <p>
-                    This is a test, this is a test, this is a test
-                    {element}
-                    {position}
+                    
                 </p>
             </div>
 
