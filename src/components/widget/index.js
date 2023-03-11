@@ -21,7 +21,6 @@ export default class Widget extends Component {
         document.addEventListener('mousemove', this.ifScrolling)
         document.addEventListener('mouseup', this.notTouching)
         
-        console.log("testing")
 
     }
 
@@ -29,7 +28,6 @@ export default class Widget extends Component {
 
     //checks to see if the user has touched the screen 
     noticeTouch(event){
-        console.log('OMG OMG OMG I SAW THAT')
         this.setState({
             scrolling:true,
             yinitial: event.clientY //takes details of where the user touched the screen
@@ -48,7 +46,6 @@ export default class Widget extends Component {
                 ychange: changeY,
                 position: newposition 
             })
-            console.log(this.state.position)
         }
     }
 
