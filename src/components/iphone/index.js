@@ -52,7 +52,14 @@ export default class Iphone extends Component {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//place functions here 
 
-	getWindData(){
+	getLocalData(){
+		var url = "http://api.openweathermap.org/data/2.5/weather?q=London&units=metric&APPID=bff435938a5989963d8a821ee442e57f";
+	$.ajax({
+		url: url,
+		dataType: "jsonp",
+		success : this.parseResponse,
+		error : function(req, err){ console.log('API call failed ' + err); }
+	})
 
 	}
 
