@@ -52,8 +52,21 @@ export default class Iphone extends Component {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//place functions here 
 
+	getWindData(){
 
+	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// the main render method for the iphone component
 	render() {
 		// check if temperature data is fetched, if so add the sign styling to the page
@@ -62,10 +75,10 @@ export default class Iphone extends Component {
 		
 		///////////////////////////////////////////////////////////////////////////////////////////////////
 		
-		let basicTemperature = <div> <div> </div> </div>
-		let basicWind = <div> <div> </div> </div>
-		let basicpercipitaiton  = <div> <div> </div> </div>
-		let basicWeather = <div> <div> </div> </div>
+		let basicTemperature = <div> <div> Temperature </div> </div>
+		let basicWind = <div> <div> Wind </div> </div>
+		let basicpercipitaiton  = <div> <div> percipitaion </div> </div>
+		let basicWeather = <div> <div> Beijing Weather</div> </div>
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// display all weather data
@@ -88,9 +101,9 @@ export default class Iphone extends Component {
 
 					{/*custom widgets class here, they require a position   */}
 					{<Widget originalheight={200} howleft= {"220px"} input ={basicTemperature}></Widget> }
-					{<Widget originalheight={430} howleft= {"20px"} input ={basicWind}></Widget> }
+					{<Widget originalheight={470} howleft= {"20px"} input ={basicWind}></Widget> }
 					{<Widget originalheight={200} howleft= {"20px"} input ={basicpercipitaiton}></Widget> }
-					{<Widget originalheight={430} howleft= {"220px"} input ={basicWeather}></Widget> }
+					{<Widget originalheight={470} howleft= {"220px"} input ={basicWeather}></Widget> }
 					
 				</div>
 
