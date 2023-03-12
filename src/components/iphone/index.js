@@ -62,6 +62,9 @@ export default class Iphone extends Component {
 		
 		///////////////////////////////////////////////////////////////////////////////////////////////////
 		
+		let basicTemperature = <div> <div> </div> </div>
+		let basicWind = <div> <div> </div> </div>
+		let basicpercipitaiton  = <div> <div> </div> </div>
 		let basicWeather = <div> <div> </div> </div>
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,9 +87,9 @@ export default class Iphone extends Component {
 
 
 					{/*custom widgets class here, they require a position   */}
-					{<Widget originalheight={200} howleft= {"220px"} input ={basicWeather}></Widget> }
-					{<Widget originalheight={430} howleft= {"20px"} input ={basicWeather}></Widget> }
-					{<Widget originalheight={200} howleft= {"20px"} input ={basicWeather}></Widget> }
+					{<Widget originalheight={200} howleft= {"220px"} input ={basicTemperature}></Widget> }
+					{<Widget originalheight={430} howleft= {"20px"} input ={basicWind}></Widget> }
+					{<Widget originalheight={200} howleft= {"20px"} input ={basicpercipitaiton}></Widget> }
 					{<Widget originalheight={430} howleft= {"220px"} input ={basicWeather}></Widget> }
 					
 				</div>
