@@ -28,6 +28,7 @@ export default class Widget extends Component {
         
         this.startclick = this.startclick.bind(this);
         this.checkclick = this.checkclick.bind(this);
+        this.toBeginning =this.toBeginning.bind(this);
     }
     startclick(event){
         this.setState({
@@ -82,6 +83,16 @@ export default class Widget extends Component {
         })
     }
 
+    //sets the state to return to the homepage
+    toBeginning(){
+
+        this.setState({
+            clicked:false
+        })
+
+
+    }
+
 
     render(){
         const {position, clicked} = this.state
@@ -92,7 +103,7 @@ export default class Widget extends Component {
             {( clicked === false ) && (
                 <div class = {widget_style.box} 
                 style={{position: "absolute", top: position, left:howleft }}
-                onClick={this.startclick}
+                onMouseDown={this.startclick}
                 onMouseUp={this.checkclick}
                 >
                         {input}
@@ -101,6 +112,10 @@ export default class Widget extends Component {
             
             {( clicked === true ) && (
                 <div class = {widget_style.whole}>
+
+                    <button class = {widget_style.backbutton } onclick = {this.toBeginning}>
+                            <img alt='back' src='./../../assets/icons/backarrow.png' width="50" height ="40" ></img>
+                    </button>
                         {clickeddata}
                 </div>
             )}
