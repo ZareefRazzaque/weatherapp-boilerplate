@@ -12,6 +12,7 @@ export default class Widget extends Component {
             yinitial:0,
             position: this.props.originalheight,
             selected:false,
+            clicked:false
 
         }
 
@@ -41,7 +42,10 @@ export default class Widget extends Component {
     checkclick(event){
         if (this.state.selected == true){
             if (this.state.originalposition == this.state.position){
-                console.log("test")
+                this.setState({
+                    clicked:true
+                })
+                console.log(this.state.clicked)
             }
         }
         this.setState({
@@ -81,18 +85,27 @@ export default class Widget extends Component {
 
 
     render(){
-        const {position, when, clicked} = this.state
+        const {position, clicked} = this.state
         const {howleft, input, clickeddata} = this.props
 
         return(
+            <div>
+            {( clicked === false ) && (
+                <div class = {widget_style.box} 
+                style={{position: "absolute", top: position, left:howleft }}
+                onClick={this.startclick}
+                >
+                        {input}
+                </div>
+            )}
+            
+            {( clicked === true ) && (
+                <div class = {widget_style.whole}>
+                        {clickeddata}
+                </div>
+            )}
 
-            <div class = {widget_style.box} 
-            style={{position: "absolute", top: position, left:howleft }}
-            onClick={this.startclick}
-            >
-                    {input}
             </div>
-
         )
 
     }
