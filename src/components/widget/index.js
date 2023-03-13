@@ -30,6 +30,11 @@ export default class Widget extends Component {
         this.checkclick = this.checkclick.bind(this);
         this.toBeginning =this.toBeginning.bind(this);
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+
+    //these functions are for 
     startclick(event){
         this.setState({
             originalposition: this.state.position,
@@ -54,7 +59,7 @@ export default class Widget extends Component {
         })
     }
 
-    //checks to see if the user has touched the screen 
+    //checks to see if the user has touched the screen (explicitly used for scrolling)
     noticeTouch(event){
         this.setState({
             scrolling:true,
@@ -85,12 +90,9 @@ export default class Widget extends Component {
 
     //sets the state to return to the homepage
     toBeginning(){
-
         this.setState({
             clicked:false
         })
-
-
     }
 
 
@@ -107,6 +109,7 @@ export default class Widget extends Component {
                 onMouseUp={this.checkclick}
                 >
                         {input}
+
                 </div>
             )}
             

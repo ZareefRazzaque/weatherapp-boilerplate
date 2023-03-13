@@ -20,6 +20,7 @@ export default class Iphone extends Component {
 		this.state.temp = "";
 		// button display state
 		this.setState({ display: true });
+		this.fetchWeatherData()
 	}
 	//function assigns variable values from the json file to ones that can be used in the application    
 	parseResponse = (parsed_json) => {
@@ -52,28 +53,7 @@ export default class Iphone extends Component {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//place functions here 
 
-	getLocalData(){
-		var url = "http://api.openweathermap.org/data/2.5/weather?q=London&units=metric&APPID=bff435938a5989963d8a821ee442e57f";
-	$.ajax({
-		url: url,
-		dataType: "jsonp",
-		success : this.parseResponse,
-		error : function(req, err){ console.log('API call failed ' + err); }
-	})
 
-	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	// the main render method for the iphone component
 	render() {
 		// check if temperature data is fetched, if so add the sign styling to the page
@@ -82,10 +62,11 @@ export default class Iphone extends Component {
 		
 		///////////////////////////////////////////////////////////////////////////////////////////////////
 		
-		let basicTemperature = <div> <div> Temperature </div> </div>
+		let basicTemperature = <div> <div> Temperature </div> <span class={ tempStyles }>{ this.state.temp}</span> </div>
 		let basicWind = <div> <div> Wind </div> </div>
 		let basicpercipitaiton  = <div> <div> percipitaion </div> </div>
 		let basicWeather = <div> <div> Beijing Weather</div> </div>
+
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////
 		// display all weather data
@@ -95,11 +76,11 @@ export default class Iphone extends Component {
 				<div class={ style.header }> 
 					<div class={ style.city }>{ this.state.locate }</div>			
 					<div class={ style.conditions }>{ this.state.cond }</div>
-					<span class={ tempStyles }>{ this.state.temp }</span>
+					
 				</div>
 				<div class={ style.details }></div>
 				<div class= { style_iphone.container }> 
-					{ this.state.display ? <Button class={ style_iphone.button } clickFunction={ this.fetchWeatherData }/ > : null }
+
 				</div>
 				<div>
 
