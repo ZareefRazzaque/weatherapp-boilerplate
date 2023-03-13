@@ -28,7 +28,6 @@ export default class Widget extends Component {
         
         this.startclick = this.startclick.bind(this);
         this.checkclick = this.checkclick.bind(this);
-        addEventListener('mouseup', this.checkclick);
     }
     startclick(event){
         this.setState({
@@ -94,6 +93,7 @@ export default class Widget extends Component {
                 <div class = {widget_style.box} 
                 style={{position: "absolute", top: position, left:howleft }}
                 onClick={this.startclick}
+                onMouseUp={this.checkclick}
                 >
                         {input}
                 </div>
