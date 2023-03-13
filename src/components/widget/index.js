@@ -20,11 +20,10 @@ export default class Widget extends Component {
         this.noticeTouch = this.noticeTouch.bind(this);
         this.ifScrolling = this.ifScrolling.bind(this);
         this.notTouching = this.notTouching.bind(this);
+
         document.addEventListener('mousedown', this.noticeTouch);
         document.addEventListener('mousemove', this.ifScrolling);
         document.addEventListener('mouseup', this.notTouching);
-        
-
         
         this.startclick = this.startclick.bind(this);
         this.checkclick = this.checkclick.bind(this);
@@ -40,8 +39,6 @@ export default class Widget extends Component {
             originalposition: this.state.position,
             selected:true
         })
-
-
     }
     
     checkclick(event){

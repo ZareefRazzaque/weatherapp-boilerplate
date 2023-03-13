@@ -26,7 +26,7 @@ export default class Iphone extends Component {
 	parseResponse = (parsed_json) => {
 
 		var location = parsed_json['name']; //name of the location saved here 	
-		var temp_c = parsed_json['main']['temp']; // temperature conditions are stored here
+		var temp_c = parsed_json['main']['temp'] +'°'; // temperature conditions are stored here
 		var conditions = parsed_json['weather']['0']['description'];//the current weather conditions are here (eg cloudy, rain , sunny etc)
 
 		// set states for fields so they could be rendered later on
@@ -56,15 +56,14 @@ export default class Iphone extends Component {
 
 	// the main render method for the iphone component
 	render() {
-		// check if temperature data is fetched, if so add the sign styling to the page
-		const tempStyles = this.state.temp ? `${style.temperature} ${style.filled}` : style.temperature;
-		
-		
 		///////////////////////////////////////////////////////////////////////////////////////////////////
+		//
+		let basicpercipitaiton  = <div> <div> Precipitation </div> </div>
 		
-		let basicTemperature = <div> <div> Temperature </div> <span class={ tempStyles }>{ this.state.temp}</span> </div>
+		let basicTemperature = <div> <div class = {style.widgetTitle}> Temperature </div> <span class={ style.temperature }>{ this.state.temp }</span> </div>
+		
 		let basicWind = <div> <div> Wind </div> </div>
-		let basicpercipitaiton  = <div> <div> percipitaion </div> </div>
+		
 		let basicWeather = <div> <div> Beijing Weather</div> </div>
 
 
