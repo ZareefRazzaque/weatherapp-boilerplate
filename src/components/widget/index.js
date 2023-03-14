@@ -105,8 +105,9 @@ export default class Widget extends Component {
         }
     }
 
-
+    //this code is the code resonsible allowing the user to rearrange widgets 
     rearranging(event) {
+        console.log(this.state.repositionX)
         if (this.state.swap == true) {
             
             const changeY = event.clientY-this.state.yinitial
@@ -114,8 +115,9 @@ export default class Widget extends Component {
 
             const newpositionY =  this.state.repositionY + changeY
             const newpositionX =  this.state.repositionX + changeX
+
+            console.log(this.state.repositionX)
             
-            console.log(newpositionY)
 
             this.setState({
                 yinitial: event.clientY,
