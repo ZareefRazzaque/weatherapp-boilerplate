@@ -23,12 +23,13 @@ export default class Widget extends Component {
         this.rearranging = this.rearranging.bind(this);
 
         document.addEventListener('mousedown', this.scrollNoticeTouch);
+        document.addEventListener('mousedown', this.rearrangeNoticeTouch)
         document.addEventListener('mousemove', this.ifScrolling);
         document.addEventListener('mousemove', this.rearranging);
         document.addEventListener('mouseup', this.notTouching);
-        
-        
+           
         this.startclick = this.startclick.bind(this);
+        this.rearrangeNoticeTouch = this.rearrangeNoticeTouch.bind(this)
         this.checkclick = this.checkclick.bind(this);
         this.toBeginning =this.toBeginning.bind(this);
     }
@@ -42,19 +43,10 @@ export default class Widget extends Component {
         this.setState({
             originalposition: this.state.position,
             selected:true,
-            xinitial: event.clientX
         })
 
         //this is used to check if user has selected and held still for 4 seconds and switches to rearrange mode
-        setTimeout(() => {
 
-            if ((this.state.selected == true)&&(this.state.swap==false)&&(this.state.clicked==false)){
-                this.setState({
-                    swap:true,
-                    scrolling: false,
-                })
-            }
-        }, 2000);
     }
     
     //this checks when the user has let go and whether it has just been a click without activating other functions 
@@ -81,7 +73,7 @@ export default class Widget extends Component {
             yinitial: event.clientY, //takes details of where the user touched the screen
         });
         
-        if (this.state.swap == false) 
+        
         setTimeout(() => {
 
             if ((this.state.selected == false)&&(this.state.swap==false)&&(this.state.clicked==false)){
@@ -106,18 +98,28 @@ export default class Widget extends Component {
         }
     }
 
-    //when this is called the user is no longer touching the screen  
-    notTouching(event){
-        this.setState({
-            scrolling: false,
-            swap:false
-        })
-    }
+
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //this section is dedicated to the rearrangement function of the application 
 
-    rearrange
+    rearrangeNoticeTouch(event){
+        this.setState({
+            xinitial: event.clientX,
+            yinitial: event.clientY
+            
+        })
+
+        setTimeout(() => {
+
+            if ((this.state.selected == true)&&(this.state.swap==false)&&(this.state.clicked==false)){
+                this.setState({
+                    swap:true,
+                    scrolling: false,
+                })
+            }
+        }, 2000);
+    }
     
 
 
@@ -147,7 +149,8 @@ export default class Widget extends Component {
 
 
     ////////////////////////////////////////////////////////////////////////////////////
-    //this sets the widget to go back to the home page
+    //other functions related to either multiple funcions or misc
+
     //sets the state to return to the homepage
     toBeginning(){
         this.setState({
@@ -156,12 +159,26 @@ export default class Widget extends Component {
     }
 
 
+    //when this is called the user is no longer touching the screen  
+    notTouching(event){
+        this.setState({
+            scrolling: false,
+            swap:false
+        })
+    }
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    //the render function allowing for widget to be generated
     render(){
         const {position,repositionY, repositionX, clicked, swap} = this.state
         const {howleft, input, clickeddata} = this.props
 
         return(
             <div>
+
+
+
             {( (clicked === false) && (swap == false )) && (
                 <div class = {widget_style.box} 
                     style={{position: "absolute", top: position, left:howleft }}
@@ -173,6 +190,9 @@ export default class Widget extends Component {
                 </div>
             )}
 
+
+
+
             {(swap === true) && (
                 <div class = {widget_style.rebox} 
                     style={{position: "absolute", top: repositionY, left:repositionX }}
@@ -182,10 +202,11 @@ export default class Widget extends Component {
                         {input}
 
                 </div>
-            )
-
-            }
+            )}
             
+
+
+
             {( clicked === true ) && (
                 <div class = {widget_style.whole}>
 
@@ -196,8 +217,9 @@ export default class Widget extends Component {
                 </div>
             )}
 
+
+
             </div>
         )
-
     }
 }
