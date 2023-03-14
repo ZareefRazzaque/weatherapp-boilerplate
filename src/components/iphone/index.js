@@ -86,9 +86,10 @@ export default class Iphone extends Component {
 
 
 					{/*custom widgets class here, they require a position   */}
+					
+					{<Widget originalheight={200} howleft= {20} input ={basicpercipitaiton}></Widget> }
 					{<Widget originalheight={200} howleft= {220} input ={basicTemperature} clickeddata = {"testing"}></Widget> }
 					{<Widget originalheight={470} howleft= {20} input ={basicWind} clickeddata = {test} ></Widget> }
-					{<Widget originalheight={200} howleft= {20} input ={basicpercipitaiton}></Widget> }
 					{<Widget originalheight={470} howleft= {220} input ={basicWeather}></Widget> }
 					
 				</div>
