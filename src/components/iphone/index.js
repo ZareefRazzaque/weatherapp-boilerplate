@@ -57,7 +57,7 @@ export default class Iphone extends Component {
 	// the main render method for the iphone component
 	render() {
 		///////////////////////////////////////////////////////////////////////////////////////////////////
-		//
+		//placing html code to be used inside widgets here
 		let basicpercipitaiton  = <div> <div> Precipitation </div> </div>
 		let test = <div>testing testing testing</div>
 
@@ -86,9 +86,7 @@ export default class Iphone extends Component {
 
 
 					{/*custom widgets class here, they require a position   */}
-					{<Widget originalheight={200} howleft= {"220px"} input ={basicTemperature} clickeddata = {"testing"}></Widget> 
-					
-					}
+					{<Widget originalheight={200} howleft= {"220px"} input ={basicTemperature} clickeddata = {"testing"}></Widget> }
 					{<Widget originalheight={470} howleft= {"20px"} input ={basicWind} clickeddata = {test} ></Widget> }
 					{<Widget originalheight={200} howleft= {"20px"} input ={basicpercipitaiton}></Widget> }
 					{<Widget originalheight={470} howleft= {"220px"} input ={basicWeather}></Widget> }
