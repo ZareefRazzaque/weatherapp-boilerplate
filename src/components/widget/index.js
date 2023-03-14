@@ -8,16 +8,14 @@ export default class Widget extends Component {
 
         this.state = {
             scrolling: false,
-            ychange:0,
-            yinitial:0,
             position: this.props.originalheight,
             selected:false,
             clicked:false,
             swap:false,
-            swapother:false
-
+            swapother:false,
+            repositionY:this.props.originalheight,
+            repositionX:this.props.howleft
         }
-
 
         this.noticeTouch = this.noticeTouch.bind(this);
         this.ifScrolling = this.ifScrolling.bind(this);
@@ -26,8 +24,9 @@ export default class Widget extends Component {
 
         document.addEventListener('mousedown', this.noticeTouch);
         document.addEventListener('mousemove', this.ifScrolling);
+        document.addEventListener('mousemove', this.rearranging);
         document.addEventListener('mouseup', this.notTouching);
-        document.addEventListener('mousedown', this.rearranging);
+        
         
         this.startclick = this.startclick.bind(this);
         this.checkclick = this.checkclick.bind(this);
@@ -41,13 +40,14 @@ export default class Widget extends Component {
     startclick(event){
         this.setState({
             originalposition: this.state.position,
-            selected:true
+            selected:true,
+            xinitial: event.clientX
         })
 
+        //this is used to check if user has selected and held still for 4 seconds and switches to rearrange mode
         setTimeout(() => {
 
             if ((this.state.selected == true)&&(this.state.swap==false)&&(this.state.clicked==false)){
-                console.log('canceled scroll')
                 this.setState({
                     swap:true,
                     scrolling: false,
@@ -56,6 +56,7 @@ export default class Widget extends Component {
         }, 4000);
     }
     
+    //this checks when the user has let go and what mode has been used
     checkclick(event){
         if ((this.state.selected == true)&&(this.state.swap==false)){
             if (this.state.originalposition == this.state.position){
@@ -76,14 +77,13 @@ export default class Widget extends Component {
     noticeTouch(event){
         this.setState({
             scrolling:true,
-            yinitial: event.clientY //takes details of where the user touched the screen
+            yinitial: event.clientY, //takes details of where the user touched the screen
         });
         
         if (this.state.swap == false) 
         setTimeout(() => {
 
             if ((this.state.selected == false)&&(this.state.swap==false)&&(this.state.clicked==false)){
-                console.log('canceled scroll')
                 this.setState({
                     scrolling: false,
                     swapother:true
@@ -99,8 +99,7 @@ export default class Widget extends Component {
             const changeY = event.clientY-this.state.yinitial   //calculates how much the user is scrolling
             const newposition =  this.state.position + changeY
             this.setState({
-                yinitial: event.clientY,
-                ychange: changeY,
+                yinitial: event.clientY,   
                 position: newposition 
             })
         }
@@ -109,9 +108,21 @@ export default class Widget extends Component {
 
     rearranging(event) {
         if (this.state.swap == true) {
-            console.log('swap active')
-            const rearrangeY = event.clientY-this.state.yinitial   //calculates how much the user is scrolling
-            const newposition =  this.state.position + changeY
+            
+            const changeY = event.clientY-this.state.yinitial
+            const changeX = event.clientX-this.state.xinitial
+
+            const newpositionY =  this.state.repositionY + changeY
+            const newpositionX =  this.state.repositionX + changeX
+            
+            console.log(newpositionY)
+
+            this.setState({
+                yinitial: event.clientY,
+                xinitial:event.clientX,
+                repositionY: newpositionY,
+                repositionX: newpositionX,
+            })
         }
     }
 
@@ -136,7 +147,7 @@ export default class Widget extends Component {
 
 
     render(){
-        const {position, clicked, swap} = this.state
+        const {position,repositionY, repositionX, clicked, swap} = this.state
         const {howleft, input, clickeddata} = this.props
 
         return(
@@ -154,7 +165,7 @@ export default class Widget extends Component {
 
             {(swap === true) && (
                 <div class = {widget_style.rebox} 
-                    style={{position: "absolute", top: position, left:howleft }}
+                    style={{position: "absolute", top: repositionY, left:repositionX }}
                     onMouseDown={this.startclick}
                     onMouseUp={this.checkclick}
                 >
