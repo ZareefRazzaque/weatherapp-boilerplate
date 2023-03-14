@@ -59,7 +59,8 @@ export default class Iphone extends Component {
 		///////////////////////////////////////////////////////////////////////////////////////////////////
 		//
 		let basicpercipitaiton  = <div> <div> Precipitation </div> </div>
-		
+		let test = <div>testing testing testing</div>
+
 		let basicTemperature = <div> <div class = {style.widgetTitle}> Temperature </div> <span class={ style.temperature }>{ this.state.temp }</span> </div>
 		
 		let basicWind = <div> <div> Wind </div> </div>
@@ -88,7 +89,7 @@ export default class Iphone extends Component {
 					{<Widget originalheight={200} howleft= {"220px"} input ={basicTemperature} clickeddata = {"testing"}></Widget> 
 					
 					}
-					{<Widget originalheight={470} howleft= {"20px"} input ={basicWind}></Widget> }
+					{<Widget originalheight={470} howleft= {"20px"} input ={basicWind} clickeddata = {test} ></Widget> }
 					{<Widget originalheight={200} howleft= {"20px"} input ={basicpercipitaiton}></Widget> }
 					{<Widget originalheight={470} howleft= {"220px"} input ={basicWeather}></Widget> }
 					
