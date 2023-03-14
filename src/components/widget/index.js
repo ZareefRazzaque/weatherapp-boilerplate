@@ -17,12 +17,12 @@ export default class Widget extends Component {
             repositionX:this.props.howleft
         }
 
-        this.noticeTouch = this.noticeTouch.bind(this);
+        this.scrollNoticeTouch = this.scrollNoticeTouch.bind(this);
         this.ifScrolling = this.ifScrolling.bind(this);
         this.notTouching = this.notTouching.bind(this);
         this.rearranging = this.rearranging.bind(this);
 
-        document.addEventListener('mousedown', this.noticeTouch);
+        document.addEventListener('mousedown', this.scrollNoticeTouch);
         document.addEventListener('mousemove', this.ifScrolling);
         document.addEventListener('mousemove', this.rearranging);
         document.addEventListener('mouseup', this.notTouching);
@@ -35,8 +35,9 @@ export default class Widget extends Component {
 
 
     ///////////////////////////////////////////////////////////////////////////////
+    //this section is dedicated to the opening of a widget
 
-    //these functions are for clicking and opening and checking if that specifc item is beong swappped with
+    //detecting someone pressing the widget and prepares accordingly
     startclick(event){
         this.setState({
             originalposition: this.state.position,
@@ -53,10 +54,10 @@ export default class Widget extends Component {
                     scrolling: false,
                 })
             }
-        }, 4000);
+        }, 2000);
     }
     
-    //this checks when the user has let go and what mode has been used
+    //this checks when the user has let go and whether it has just been a click without activating other functions 
     checkclick(event){
         if ((this.state.selected == true)&&(this.state.swap==false)){
             if (this.state.originalposition == this.state.position){
@@ -71,10 +72,10 @@ export default class Widget extends Component {
         })
     }
     ///////////////////////////////////////////////////////////////////////////////////////
-    //this functions are for scrolling 
+    //this section is dedicated to the scrolling of widgets 
 
     //checks to see if the user has touched the screen (explicitly used for scrolling)
-    noticeTouch(event){
+    scrollNoticeTouch(event){
         this.setState({
             scrolling:true,
             yinitial: event.clientY, //takes details of where the user touched the screen
@@ -89,7 +90,7 @@ export default class Widget extends Component {
                     swapother:true
                 })
             }
-        }, 4000);
+        }, 2000);
 
     }
 
@@ -104,6 +105,21 @@ export default class Widget extends Component {
             })
         }
     }
+
+    //when this is called the user is no longer touching the screen  
+    notTouching(event){
+        this.setState({
+            scrolling: false,
+            swap:false
+        })
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //this section is dedicated to the rearrangement function of the application 
+
+    rearrange
+    
+
 
     //this code is the code resonsible allowing the user to rearrange widgets 
     rearranging(event) {
@@ -129,14 +145,6 @@ export default class Widget extends Component {
     }
 
 
-
-    //when this is called the user is no longer touching the screen  
-    notTouching(event){
-        this.setState({
-            scrolling: false,
-            swap:false
-        })
-    }
 
     ////////////////////////////////////////////////////////////////////////////////////
     //this sets the widget to go back to the home page
