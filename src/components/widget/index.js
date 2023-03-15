@@ -107,11 +107,26 @@ export default class Widget extends Component {
 
             xinitial: event.clientX,
             yinitial: event.clientY,
-            repositionY: this.state.positionY,
+
+
+
+            movingtoY: this.state.positionY,
+            movingtoX: this.state.positionX,
 
             startX: event.clientX,
-            startY: event.clieentY
+            startY: event.clientY
         })
+
+        if (this.state.swap == true){
+            this.setState({
+
+                repositionY: this.state.positionY,
+                repositionX: this.state.positionX,
+            })
+        }
+        else if (this.state.swapother == true){
+
+        }
 
         setTimeout(() => {
             //note whether the item is selected is determined by the first funciton which handles opening and closing apps
@@ -155,9 +170,31 @@ export default class Widget extends Component {
             })
         }
         
+
+
         else if (this.state.swapother == true) {
 
+            const changeY = event.clientY - this.state.yinitial
+            const changeX = event.clientX - this.state.xinitial
+
+            const newpositionY = this.state.movingtoY + changeY
+            const newpositionX = this.state.movingtoX + changeX
+
+
+            this.setState({
+                yinitial: event.clientY,
+                xinitial: event.clientX,
+
+                movingtoY: newpositionY,
+                movingtoX: newpositionX,
+            })
+
+            console.log(this.state.movingtoX,this.state.movingtoY)
         }
+
+
+
+        
     
     }
 
@@ -196,7 +233,7 @@ export default class Widget extends Component {
         }
 
         if (this.state.swapother == true){
-            
+
         }
 
 
