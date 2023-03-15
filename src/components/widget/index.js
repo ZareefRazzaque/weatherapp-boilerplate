@@ -117,7 +117,6 @@ export default class Widget extends Component {
             //note whether the item is selected is determined by the first funciton which handles opening and closing apps
             if  ((this.state.swap==false)&&(this.state.clicked==false) && (this.state.originalposition == this.state.positionY)) {    
                 if ((this.state.selected == true)){
-                    console.log("swap active")
                     this.setState({
                         swap:true,
                         scrolling: false,
@@ -140,7 +139,6 @@ export default class Widget extends Component {
     rearranging(event) {
         
         if (this.state.swap == true) {
-            
             const changeY = event.clientY-this.state.yinitial
             const changeX = event.clientX-this.state.xinitial
 
@@ -164,10 +162,11 @@ export default class Widget extends Component {
     }
 
     rearrangingfinish(event){
-        console.log("test")
         if (this.state.swap == true){
             
-            if (340>this.state.repositionX>115){
+
+
+            if (340>this.state.repositionX>-115){
 
                 let Ycheck = this.state.universalpointY+200
                 while (this.state.repositionY > Ycheck){
@@ -176,16 +175,28 @@ export default class Widget extends Component {
 
                 const newpositionY = Ycheck - 200
                 this.setState({
-                    positionY: newpositionY
+                    positionY: newpositionY,
+                    reposiitonY:newpositionY
                 })
-                //remember zareef -115, 340
 
+
+                if (this.state.repositionX >110){
+                    this.setState({
+                        positionX:220,
+                        repositionX:220
+                    })
+                }
+                else{
+                    this.setState({
+                        positionX:20,
+                        repositionX:20
+                    })
+                }
+            }
+        }
+
+        if (this.state.swapother == true){
             
-                
-            }
-            else{
-
-            }
         }
 
 
@@ -193,6 +204,9 @@ export default class Widget extends Component {
             swap:false,
             swapother:false
         })
+
+
+
     }
 
 
