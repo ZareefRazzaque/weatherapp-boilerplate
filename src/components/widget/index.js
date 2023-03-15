@@ -91,7 +91,6 @@ export default class Widget extends Component {
     //this section is dedicated to the rearrangement function of the application 
 
     rearrangeNoticeTouch(event){
-        console.log(this.state.selected)
         this.setState({
             originalposition: this.state.position,
             xinitial: event.clientX,
@@ -101,9 +100,7 @@ export default class Widget extends Component {
         setTimeout(() => {
             //note whether the item is selected is determined by the first funciton which handles opening and closing apps
             if  ((this.state.swap==false)&&(this.state.clicked==false) && (this.state.originalposition == this.state.position)) {    
-                console.log("first if statement passed")
                 if ((this.state.selected == true)){
-                    console.log("second if statement passed")
                     this.setState({
                         swap:true,
                         scrolling: false,
@@ -111,8 +108,6 @@ export default class Widget extends Component {
                 }
 
                 if (this.state.selected == false){
-                    console.log("third if statement passed")
-                    console.log("this has triggered")
                     this.setState({
                         scrolling: false,
                         swapother:true

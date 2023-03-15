@@ -15,22 +15,25 @@
     font-size: 20px;
     font-weight: 1000;
     color:rgba(37, 0, 82, 0.765);
-    background-color: rgba(52, 186, 239, 0.85);
+    background-color: rgba(52, 186, 239, 0.95);
     border: 3pt solid rgb(255, 255, 255);
     width: 45%;
     height: 270px;
     border-radius: 20pt;
     transition: width 0.2s ease-in-out, height 0.2s ease-in-out;
+    z-index: 1;
 }
 
 .box:hover{
     transition: all 0.2s ease-in-out ;
     background-color: rgba(230, 247, 254, 0.85);
+    
 }
 
 .box:active{
     background-color: rgba(52, 186, 239, 0.85);
     transition: all 0s ease-in-out;
+    
 }
 
 
@@ -44,7 +47,7 @@
     width:100%;
     left:0;
     top:0;
-    z-index: 1;
+    z-index: 2;
 }
 
 .backbutton{
