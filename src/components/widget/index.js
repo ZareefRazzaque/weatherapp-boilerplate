@@ -24,10 +24,13 @@ export default class Widget extends Component {
         }
 
         this.scrollNoticeTouch = this.scrollNoticeTouch.bind(this);
+        
         this.ifScrolling = this.ifScrolling.bind(this);
         this.notTouching = this.notTouching.bind(this);
+
         this.rearranging = this.rearranging.bind(this);
         this.rearrangeNoticeTouch = this.rearrangeNoticeTouch.bind(this)
+        this.rearrangingfinish = this.rearrangingfinish.bind(this)
 
         document.addEventListener('mousedown', this.scrollNoticeTouch);
         document.addEventListener('mousedown', this.rearrangeNoticeTouch)
@@ -64,7 +67,6 @@ export default class Widget extends Component {
         }
         this.setState({
             selected:false,
-            whenclicked:true,
         })
     }
 
@@ -115,6 +117,7 @@ export default class Widget extends Component {
             //note whether the item is selected is determined by the first funciton which handles opening and closing apps
             if  ((this.state.swap==false)&&(this.state.clicked==false) && (this.state.originalposition == this.state.positionY)) {    
                 if ((this.state.selected == true)){
+                    console.log("swap active")
                     this.setState({
                         swap:true,
                         scrolling: false,
@@ -159,7 +162,31 @@ export default class Widget extends Component {
     
     }
 
-    rearrangingfinish(){}
+    rearrangingfinish(event){
+        console.log("test")
+        if (this.state.swap == true){
+            console.log("first if statement passed")
+
+            let Ycheck = this.state.universalpointY+200
+            while (this.state.repositionY > Ycheck){
+                Ycheck = Ycheck+ 270
+            }
+
+            const newpositionY = Ycheck - 200
+            this.setState({
+                positionY: newpositionY
+            })
+
+
+
+
+        }
+
+        this.setState({
+            swap:false,
+            swapother:false
+        })
+    }
 
 
 
@@ -179,11 +206,8 @@ export default class Widget extends Component {
         this.setState({
             selected:false,
             scrolling: false,
-            swap:false,
-            swapother:false
-        })
 
-        console.log(this.state.swap)
+        })
     }
 
 
