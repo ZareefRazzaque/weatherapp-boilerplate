@@ -7,12 +7,18 @@ export default class Widget extends Component {
         super(props);
 
         this.state = {
-            scrolling: false,
-            position: this.props.originalheight,
             selected:false,
+            scrolling: false,
             clicked:false,
             swap:false,
             swapother:false,
+
+            universalpointX: 20,
+            universalpointY: 200,
+
+            positionY: this.props.originalheight,
+            positionX: this.props.howleft,
+
             repositionY:this.props.originalheight,
             repositionX:this.props.howleft
         }
@@ -28,6 +34,7 @@ export default class Widget extends Component {
         document.addEventListener('mousemove', this.ifScrolling);
         document.addEventListener('mousemove', this.rearranging);
         document.addEventListener('mouseup', this.notTouching);
+        document.addEventListener('mouseup', this.rearrangingfinish)
            
         this.startclick = this.startclick.bind(this);
         this.checkclick = this.checkclick.bind(this);
@@ -41,7 +48,7 @@ export default class Widget extends Component {
     //detecting someone pressing the widget and prepares accordingly
     startclick(event){
         this.setState({
-            originalposition: this.state.position,
+            originalposition: this.state.positionY,
             selected:true,
         })
     }
@@ -49,7 +56,7 @@ export default class Widget extends Component {
     //this checks when the user has let go and whether it has just been a click without activating other functions 
     checkclick(event){
         if ((this.state.selected == true)&&(this.state.swap==false)){
-            if (this.state.originalposition == this.state.position){
+            if (this.state.originalposition == this.state.positionY){
                 this.setState({
                     clicked:true
                 })
@@ -77,10 +84,12 @@ export default class Widget extends Component {
     ifScrolling(event){
         if (this.state.scrolling == true){
             const changeY = event.clientY-this.state.yinitial   //calculates how much the user is scrolling
-            const newposition =  this.state.position + changeY
+            const newposition =  this.state.positionY + changeY
+            const newuniversalpointY = this.state.universalpointY + changeY 
             this.setState({
                 yinitial: event.clientY,   
-                position: newposition 
+                positionY: newposition ,
+                universalpointY:newuniversalpointY
             })
         }
     }
@@ -92,14 +101,19 @@ export default class Widget extends Component {
 
     rearrangeNoticeTouch(event){
         this.setState({
-            originalposition: this.state.position,
+            originalposition: this.state.positionY,
+
             xinitial: event.clientX,
-            yinitial: event.clientY            
+            yinitial: event.clientY,
+            repositionY: this.state.positionY,
+
+            startX: event.clientX,
+            startY: event.clieentY
         })
 
         setTimeout(() => {
             //note whether the item is selected is determined by the first funciton which handles opening and closing apps
-            if  ((this.state.swap==false)&&(this.state.clicked==false) && (this.state.originalposition == this.state.position)) {    
+            if  ((this.state.swap==false)&&(this.state.clicked==false) && (this.state.originalposition == this.state.positionY)) {    
                 if ((this.state.selected == true)){
                     this.setState({
                         swap:true,
@@ -107,7 +121,7 @@ export default class Widget extends Component {
                     })
                 }
 
-                if (this.state.selected == false){
+                else if (this.state.selected == false){
                     this.setState({
                         scrolling: false,
                         swapother:true
@@ -138,7 +152,14 @@ export default class Widget extends Component {
                 repositionX: newpositionX,
             })
         }
+        
+        if (this.state.swapother == true) {
+
+        }
+    
     }
+
+    rearrangingfinish(){}
 
 
 
@@ -165,54 +186,49 @@ export default class Widget extends Component {
     //////////////////////////////////////////////////////////////////////////////////////////////////
     //the render function allowing for widget to be generated
     render(){
-        const {position,repositionY, repositionX, clicked, swap} = this.state
-        const {howleft, input, clickeddata} = this.props
+        const {positionY, positionX,repositionY, repositionX, clicked, swap} = this.state
+        const { input, clickeddata} = this.props
 
         return(
             <div>
 
+                {( (clicked === false) && (swap == false )) && (
+                    <div class = {widget_style.box} 
+                        style={{position: "absolute", top: positionY, left:positionX }}
+                        onMouseDown={this.startclick}
+                        onMouseUp={this.checkclick}
+                    >
+                            {input}
 
-
-            {( (clicked === false) && (swap == false )) && (
-                <div class = {widget_style.box} 
-                    style={{position: "absolute", top: position, left:howleft }}
-                    onMouseDown={this.startclick}
-                    onMouseUp={this.checkclick}
-                >
-                        {input}
-
-                </div>
-            )}
-
+                    </div>
+                )}
 
 
 
-            {(swap === true) && (
-                <div class = {widget_style.rebox} 
-                    style={{position: "absolute", top: repositionY, left:repositionX }}
-                    onMouseDown={this.startclick}
-                    onMouseUp={this.checkclick}
-                >
-                        {input}
+                {(swap === true) && (
+                    <div class = {widget_style.rebox} 
+                        style={{position: "absolute", top: repositionY, left:repositionX }}
+                        onMouseDown={this.startclick}
+                        onMouseUp={this.checkclick}
+                    >
+                            {input}
 
-                </div>
-            )}
-            
-
-
-
-            {( clicked === true ) && (
-                <div class = {widget_style.whole}>
-
-                    <button class = {widget_style.backbutton } onclick = {this.toBeginning}>
-                            <img alt='back' src='./../../assets/icons/backarrow.png' width="50" height ="40" ></img>
-                    </button>
-                        {clickeddata}
-                </div>
-            )}
+                    </div>
+                )}
 
 
 
+                
+
+                {( clicked === true ) && (
+                    <div class = {widget_style.whole}>
+
+                        <button class = {widget_style.backbutton } onclick = {this.toBeginning}>
+                                <img alt='back' src='./../../assets/icons/backarrow.png' width="50" height ="40" ></img>
+                        </button>
+                            {clickeddata}
+                    </div>
+                )}
             </div>
         )
     }
