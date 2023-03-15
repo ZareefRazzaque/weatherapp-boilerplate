@@ -138,6 +138,7 @@ export default class Widget extends Component {
 
     //this code is the code resonsible allowing the user to rearrange widgets 
     rearranging(event) {
+        
         if (this.state.swap == true) {
             
             const changeY = event.clientY-this.state.yinitial
@@ -165,22 +166,28 @@ export default class Widget extends Component {
     rearrangingfinish(event){
         console.log("test")
         if (this.state.swap == true){
-            console.log("first if statement passed")
+            
+            if (340>this.state.repositionX>115){
 
-            let Ycheck = this.state.universalpointY+200
-            while (this.state.repositionY > Ycheck){
-                Ycheck = Ycheck+ 270
+                let Ycheck = this.state.universalpointY+200
+                while (this.state.repositionY > Ycheck){
+                    Ycheck = Ycheck+ 270
+                }
+
+                const newpositionY = Ycheck - 200
+                this.setState({
+                    positionY: newpositionY
+                })
+                //remember zareef -115, 340
+
+            
+                
             }
+            else{
 
-            const newpositionY = Ycheck - 200
-            this.setState({
-                positionY: newpositionY
-            })
-
-
-
-
+            }
         }
+
 
         this.setState({
             swap:false,
