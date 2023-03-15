@@ -153,7 +153,7 @@ export default class Widget extends Component {
             })
         }
         
-        if (this.state.swapother == true) {
+        else if (this.state.swapother == true) {
 
         }
     
@@ -177,9 +177,13 @@ export default class Widget extends Component {
     //when this is called the user is no longer touching the screen  
     notTouching(event){
         this.setState({
+            selected:false,
             scrolling: false,
-            swap:false
+            swap:false,
+            swapother:false
         })
+
+        console.log(this.state.swap)
     }
 
 
