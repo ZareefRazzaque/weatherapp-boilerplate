@@ -21,6 +21,7 @@ export default class Widget extends Component {
         this.ifScrolling = this.ifScrolling.bind(this);
         this.notTouching = this.notTouching.bind(this);
         this.rearranging = this.rearranging.bind(this);
+        this.rearrangeNoticeTouch = this.rearrangeNoticeTouch.bind(this)
 
         document.addEventListener('mousedown', this.scrollNoticeTouch);
         document.addEventListener('mousedown', this.rearrangeNoticeTouch)
@@ -29,7 +30,6 @@ export default class Widget extends Component {
         document.addEventListener('mouseup', this.notTouching);
            
         this.startclick = this.startclick.bind(this);
-        this.rearrangeNoticeTouch = this.rearrangeNoticeTouch.bind(this)
         this.checkclick = this.checkclick.bind(this);
         this.toBeginning =this.toBeginning.bind(this);
     }
@@ -44,9 +44,6 @@ export default class Widget extends Component {
             originalposition: this.state.position,
             selected:true,
         })
-
-        //this is used to check if user has selected and held still for 4 seconds and switches to rearrange mode
-
     }
     
     //this checks when the user has let go and whether it has just been a click without activating other functions 
@@ -63,6 +60,8 @@ export default class Widget extends Component {
             whenclicked:true,
         })
     }
+
+
     ///////////////////////////////////////////////////////////////////////////////////////
     //this section is dedicated to the scrolling of widgets 
 
@@ -72,18 +71,6 @@ export default class Widget extends Component {
             scrolling:true,
             yinitial: event.clientY, //takes details of where the user touched the screen
         });
-        
-        
-        setTimeout(() => {
-
-            if ((this.state.selected == false)&&(this.state.swap==false)&&(this.state.clicked==false)){
-                this.setState({
-                    scrolling: false,
-                    swapother:true
-                })
-            }
-        }, 2000);
-
     }
 
     //checks to see if the user is dragging their finger accross the screen 
@@ -104,19 +91,33 @@ export default class Widget extends Component {
     //this section is dedicated to the rearrangement function of the application 
 
     rearrangeNoticeTouch(event){
+        console.log(this.state.selected)
         this.setState({
+            originalposition: this.state.position,
             xinitial: event.clientX,
-            yinitial: event.clientY
-            
+            yinitial: event.clientY            
         })
 
         setTimeout(() => {
+            //note whether the item is selected is determined by the first funciton which handles opening and closing apps
+            if  ((this.state.swap==false)&&(this.state.clicked==false) && (this.state.originalposition == this.state.position)) {    
+                console.log("first if statement passed")
+                if ((this.state.selected == true)){
+                    console.log("second if statement passed")
+                    this.setState({
+                        swap:true,
+                        scrolling: false,
+                    })
+                }
 
-            if ((this.state.selected == true)&&(this.state.swap==false)&&(this.state.clicked==false)){
-                this.setState({
-                    swap:true,
-                    scrolling: false,
-                })
+                if (this.state.selected == false){
+                    console.log("third if statement passed")
+                    console.log("this has triggered")
+                    this.setState({
+                        scrolling: false,
+                        swapother:true
+                    })
+                }
             }
         }, 2000);
     }
@@ -125,7 +126,6 @@ export default class Widget extends Component {
 
     //this code is the code resonsible allowing the user to rearrange widgets 
     rearranging(event) {
-        console.log(this.state.repositionX)
         if (this.state.swap == true) {
             
             const changeY = event.clientY-this.state.yinitial
@@ -134,7 +134,6 @@ export default class Widget extends Component {
             const newpositionY =  this.state.repositionY + changeY
             const newpositionX =  this.state.repositionX + changeX
 
-            console.log(this.state.repositionX)
             
 
             this.setState({
