@@ -56,19 +56,96 @@ export default class Iphone extends Component {
 
 	// the main render method for the iphone component
 	render() {
-		///////////////////////////////////////////////////////////////////////////////////////////////////
-		//placing html code to be used inside widgets here
-		let basicpercipitaiton  = <div> <div> Precipitation </div> </div>
-		let test = <div>testing testing testing</div>
+		let defaultLocation  = <div> 
+                <div> 
+                    {/*Use Api to put default Location here. Add setting fot default location */} 
+                    London 
+                </div> 
+            </div>
 
-		let basicTemperature = <div> <div class = {style.widgetTitle}> Temperature </div> <span class={ style.temperature }>{ this.state.temp }</span> </div>
-		
-		let basicWind = <div> <div> Wind </div> </div>
-		
-		let basicWeather = <div> <div> Beijing Weather</div> </div>
+            
+        let weekWeather = <div> 
+                <div class = {style.widgetTitle}> Week Weather </div> 
+            </div>
+
+        let citiesList = <div> 
+                <div> Other Locations </div> 
+            </div>
+
+        let alerts = <div> 
+                <div> Weather Alerts</div> 
+            </div>
 
 
-		//////////////////////////////////////////////////////////////////////////////////////////////////
+        {/*Content of the bubbles*/} 
+
+        let defaultLocationBubble = <div>
+                <div>
+                    <div>Weather</div>
+                    <div>Sunny</div>
+                </div>
+                <div>
+                    <div>Temperature</div>
+                    <div>10</div>
+                </div>
+
+                <div>
+                    <div>Wind</div>
+                    <div>1ms</div>
+                </div>
+
+                <div>
+                    <div>Humidity</div>
+                    <div>10</div>
+                </div>
+            </div>
+
+
+        let weekWeatherBubble = <div>
+            <div>
+                <div>Monday</div>
+                <div>Sunny</div>
+            </div>
+
+            <div>
+                <div>Tueday</div>
+                <div>Sunny</div>
+            </div>
+
+            <div>
+                <div>Wednesday</div>
+                <div>Sunny</div>
+            </div>
+            <div>
+                <div>Thurday</div>
+                <div>Sunny</div>
+            </div>
+            <div>
+                <div>Friday</div>
+                <div>Sunny</div>
+            </div>
+        </div>
+
+        let citiesListBubble = <div>
+            <div>
+                <div>Rome</div>
+                <div>Sunny</div>
+            </div>
+
+            <div>
+                <div>Tokyo</div>
+                <div>Sunny</div>
+            </div>
+        </div>
+
+        let allertsBubble = <div>
+            <div>
+                <div>Wind</div>
+                <div>400ms</div>
+            </div>
+        </div>
+
+
 		// display all weather data
 		return (
 			<div class={ style.container }>
@@ -87,10 +164,10 @@ export default class Iphone extends Component {
 
 					{/*custom widgets class here, they require a position   */}
 					
-					{<Widget originalheight={200} howleft= {20} input ={basicpercipitaiton}></Widget> }
-					{<Widget originalheight={200} howleft= {220} input ={basicTemperature} clickeddata = {"testing"}></Widget> }
-					{<Widget originalheight={470} howleft= {20} input ={basicWind} clickeddata = {test} ></Widget> }
-					{<Widget originalheight={470} howleft= {220} input ={basicWeather}></Widget> }
+					{<Widget originalheight={200} howleft= {20} input ={defaultLocation} clickeddata={defaultLocationBubble}></Widget> }
+					{<Widget originalheight={200} howleft= {220} input ={weekWeather} clickeddata = {weekWeatherBubble}></Widget> }
+					{<Widget originalheight={470} howleft= {20} input ={citiesList}  clickeddata={citiesListBubble}></Widget> }
+					{<Widget originalheight={470} howleft= {220} input={alerts} clickeddata={allertsBubble}></Widget> }
 					
 				</div>
 
