@@ -10,6 +10,8 @@ import $ from 'jquery';
 import Button from '../button';
 import Widget from '../widget'
 
+import 'regenerator-runtime/runtime';
+
 export default class Iphone extends Component {
 //var Iphone = React.createClass({
 
@@ -19,10 +21,19 @@ export default class Iphone extends Component {
 		// temperature state
 		this.state.temp = "";
 		// button display state
-		this.setState({ display: true });
+		this.setState({ display: true,
+        locallocation: "London"  });
 		this.fetchWeatherData()
+
+        this.parseCoordinates =this.parseCoordinates.bind(this)
+        this.pullCityCoordinates = this.pullCityCoordinates.bind(this)
+        this.parseTodaysWeather = this.parseTodaysWeather.bind(this)
+        this.getTodaysWeather = this.getTodaysWeather.bind(this)
+        this.generateTodaysWeather = this.generateTodaysWeather.bind(this)
+        this.generateTodaysWeather()
+        
 	}
-	//function assigns variable values from the json file to ones that can be used in the application    
+	//function assigns variable values from the json file to ones that can be used in the application 
 	parseResponse = (parsed_json) => {
 
 		var location = parsed_json['name']; //name of the location saved here 	
@@ -52,14 +63,100 @@ export default class Iphone extends Component {
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//place functions here 
+    parseCoordinates(json){
+        var latitude = json[0]["lat"]
+        var longatude = json[0]["lon"]
+        this.setState({
+            lat: latitude,
+            lon: longatude
+        })
+        console.log(this.state.lat,this.state.lon)
+    }
+
+    async pullCityCoordinates(city){
+        var string = 'http://api.openweathermap.org/geo/1.0/direct?q='+city+'&appid=bff435938a5989963d8a821ee442e57f'
+        await $.ajax({
+			url: string,
+			dataType: "jsonp",
+			success : this.parseCoordinates,
+			error : function(req, err){ console.log('API call failed ' + err); }
+		})
+    }
 
 
+    parseTodaysWeather(json){
+        console.log("running")
+        var data = json['list']
+        this.setState({
+            locationWeatherData:data
+        })
+        console.log(data)
+    }
+
+    async getTodaysWeather(city){
+        await this.pullCityCoordinates(city)
+        var string = 'http://api.openweathermap.org/data/2.5/forecast?lat='+this.state.lat+'&lon='+this.state.lon+'&appid=bff435938a5989963d8a821ee442e57f'
+        console.log(string)
+         await $.ajax({
+			url: string,
+			dataType: "jsonp",
+			success : this.parseTodaysWeather,
+			error : function(req, err){ console.log('API call failed ' + err); }
+		})
+        
+        
+    }
+
+
+    async generateTodaysWeather(){
+        console.log("generating")
+        await this.getTodaysWeather('London')
+        console.log()
+
+        let table = <table>
+            <tr>
+                <td>
+                    {this.state.locationWeatherData[1]["main"]["temp"]}
+                </td>
+                <td>
+                    
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>
+                    {this.state.locationWeatherData[2]["main"]["temp"]}
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    {this.state.locationWeatherData[3]["main"]["temp"]}
+                </td>
+            </tr>
+        </table>
+
+        this
+
+        this.setState({
+            todaysWeatherTable:table
+        })
+    }
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// the main render method for the iphone component
 	render() {
 		let defaultLocation  = <div> 
                 <div> 
                     {/*Use Api to put default Location here. Add setting fot default location */} 
-                    London 
+                    {this.state.locallocation} today
+
+
+                    <div>
+                    {this.state.todaysWeatherTable}
+                    testing
+                    </div>
+
                 </div> 
             </div>
 
