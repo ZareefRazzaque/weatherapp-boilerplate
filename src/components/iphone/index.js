@@ -111,33 +111,20 @@ export default class Iphone extends Component {
     async generateTodaysWeather(){
         console.log("generating")
         await this.getTodaysWeather('London')
-        console.log()
+        console.log(this.state.locationWeatherData[1]['weather'][0]['main'])
 
-        let table = <table>
-            <tr>
-                <td>
-                    {this.state.locationWeatherData[1]["main"]["temp"]}
-                </td>
-                <td>
-                    
-                </td>
+        let table = <table class = {widget_style.table}>
+        {this.state.locationWeatherData.slice(0,8).map(record => (
+            <tr class = {widget_style.closedtablerow}>
+                <td>{record['dt_txt'].slice(10,16)}</td>
+                <td class = {widget_style.insidemidcell}>{record['weather'][0]['main']}</td>
+                <td>{Math.round(record['main']['temp'] -273.15)}°C</td>
 
             </tr>
+        ))}
 
-            <tr>
-                <td>
-                    {this.state.locationWeatherData[2]["main"]["temp"]}
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    {this.state.locationWeatherData[3]["main"]["temp"]}
-                </td>
-            </tr>
         </table>
 
-        this
 
         this.setState({
             todaysWeatherTable:table
@@ -154,7 +141,6 @@ export default class Iphone extends Component {
 
                     <div>
                     {this.state.todaysWeatherTable}
-                    testing
                     </div>
 
                 </div> 

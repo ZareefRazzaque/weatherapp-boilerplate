@@ -189,7 +189,6 @@ export default class Widget extends Component {
                 movingtoX: newpositionX,
             })
 
-            console.log(this.state.movingtoX,this.state.movingtoY)
         }
 
 
