@@ -30,7 +30,8 @@ export default class Iphone extends Component {
         this.parseTodaysWeather = this.parseTodaysWeather.bind(this)
         this.getTodaysWeather = this.getTodaysWeather.bind(this)
         this.generateTodaysWeather = this.generateTodaysWeather.bind(this)
-        this.generateTodaysWeather()
+        this.setup = this.setup.bind(this)
+        this.setup()
         
 	}
 	//function assigns variable values from the json file to ones that can be used in the application 
@@ -51,7 +52,7 @@ export default class Iphone extends Component {
 	// a call to fetch weather data via wunderground
 	fetchWeatherData = () => {
 		// API URL with a structure of : http://api.wunderground.com/api/key/feature/q/country-code/city.json
-		var url = "http://api.openweathermap.org/data/2.5/weather?q=London&units=metric&APPID=bff435938a5989963d8a821ee442e57f";
+		var url = "http://api.openweathermap.org/data/2.5/weather?q=London&units=metric&APPID=e6e37f49ba7373ea798d418e80e6a3d4";
 		$.ajax({
 			url: url,
 			dataType: "jsonp",
@@ -74,7 +75,7 @@ export default class Iphone extends Component {
     }
 
     async pullCityCoordinates(city){
-        var string = 'http://api.openweathermap.org/geo/1.0/direct?q='+city+'&appid=bff435938a5989963d8a821ee442e57f'
+        var string = 'http://api.openweathermap.org/geo/1.0/direct?q='+city+'&appid=e6e37f49ba7373ea798d418e80e6a3d4'
         await $.ajax({
 			url: string,
 			dataType: "jsonp",
@@ -95,7 +96,7 @@ export default class Iphone extends Component {
 
     async getTodaysWeather(city){
         await this.pullCityCoordinates(city)
-        var string = 'http://api.openweathermap.org/data/2.5/forecast?lat='+this.state.lat+'&lon='+this.state.lon+'&appid=bff435938a5989963d8a821ee442e57f'
+        var string = 'http://api.openweathermap.org/data/2.5/forecast?lat='+this.state.lat+'&lon='+this.state.lon+'&appid=e6e37f49ba7373ea798d418e80e6a3d4'
         console.log(string)
          await $.ajax({
 			url: string,
@@ -108,31 +109,36 @@ export default class Iphone extends Component {
     }
 
 
-    async generateTodaysWeather(){
-        console.log("generating")
-        await this.getTodaysWeather('London')
-        console.log(this.state.locationWeatherData[1]['weather'][0]['main'])
+    async generateTodaysWeather(city){
+        console.log('starting')
+        await this.getTodaysWeather(city)
 
         let table = <table class = {widget_style.table}>
-        {this.state.locationWeatherData.slice(0,8).map(record => (
-            <tr class = {widget_style.closedtablerow}>
-                <td>{record['dt_txt'].slice(10,16)}</td>
-                <td class = {widget_style.insidemidcell}>{record['weather'][0]['main']}</td>
-                <td>{Math.round(record['main']['temp'] -273.15)}°C</td>
+            {this.state.locationWeatherData.slice(0,8).map(record => (
+                <tr class = {widget_style.closedtablerow}>
+                    <td>{record['dt_txt'].slice(10,16)}</td>
+                    <td class = {widget_style.insidemidcell}>{record['weather'][0]['main']}</td>
+                    <td>{Math.round(record['main']['temp'] -273.15)}°C</td>
 
-            </tr>
-        ))}
+                </tr>
+            ))}
 
         </table>
 
+        return table
+    }
+
+    async setup(){
 
         this.setState({
-            todaysWeatherTable:table
+            todaysLocalWeatherTable:await this.generateTodaysWeather(this.state.locallocation)
         })
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// the main render method for the iphone component
 	render() {
+        const {todaysLocalWeatherTable} = this.state
+
 		let defaultLocation  = <div> 
                 <div> 
                     {/*Use Api to put default Location here. Add setting fot default location */} 
@@ -140,7 +146,7 @@ export default class Iphone extends Component {
 
 
                     <div>
-                    {this.state.todaysWeatherTable}
+                    {this.state.todaysLocalWeatherTable}
                     </div>
 
                 </div> 
