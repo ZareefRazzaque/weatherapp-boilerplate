@@ -10,6 +10,7 @@
     width: 40%;
     height: 250px;
     border-radius: 20pt;
+    overflow:hidden;
 }
 
 .rebox{
@@ -51,6 +52,7 @@
     width:100%;
     left:0;
     top:0;
+    overflow: hidden;
     z-index: 2;
 }
 
@@ -63,17 +65,38 @@
     width: 80pt;
     height:40pt;
     font-size: xx-large;
+    transition: all 0.2s ease-in-out;
 }
 
 .closedtablerow{
     font-size:15px;
     font-weight: 50;
     color:black;
-    height: 19pt;
+    height: 20pt;
+    padding-top: 100px;
 
 }
 
 .insidemidcell{
-    padding-left: 14px ;
-    padding-right: 14px ;
+    overflow: hidden;
+    height: 10pt;
+    padding-left: 25px ;
+    padding-right: 25px ;
+    padding-top: 0;
 }
+
+.tableEnlarged{
+    position: absolute;
+    padding-right: 20px;
+    left: 150px;
+    font-size: large;
+    color:black;
+    border-left: black 2px solid;
+    border-bottom: black 2px solid;
+    background-color:rgb(163, 204, 245)
+}
+
+.tableEnlargedtd {
+    padding-left: 10px;
+}
+

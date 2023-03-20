@@ -27,8 +27,8 @@ export default class Iphone extends Component {
 
         this.parseCoordinates =this.parseCoordinates.bind(this)
         this.pullCityCoordinates = this.pullCityCoordinates.bind(this)
-        this.parseTodaysWeather = this.parseTodaysWeather.bind(this)
-        this.getTodaysWeather = this.getTodaysWeather.bind(this)
+        this.parseUpcommingWeather = this.parseUpcommingWeather.bind(this)
+        this.getUpcommingWeather = this.getUpcommingWeather.bind(this)
         this.generateTodaysWeather = this.generateTodaysWeather.bind(this)
         this.setup = this.setup.bind(this)
         this.setup()
@@ -85,7 +85,7 @@ export default class Iphone extends Component {
     }
 
 
-    parseTodaysWeather(json){
+    parseUpcommingWeather(json){
         console.log("running")
         var data = json['list']
         this.setState({
@@ -94,30 +94,50 @@ export default class Iphone extends Component {
         console.log(data)
     }
 
-    async getTodaysWeather(city){
+    async getUpcommingWeather(city){
         await this.pullCityCoordinates(city)
         var string = 'http://api.openweathermap.org/data/2.5/forecast?lat='+this.state.lat+'&lon='+this.state.lon+'&appid=e6e37f49ba7373ea798d418e80e6a3d4'
         console.log(string)
          await $.ajax({
 			url: string,
 			dataType: "jsonp",
-			success : this.parseTodaysWeather,
+			success : this.parseUpcommingWeather,
 			error : function(req, err){ console.log('API call failed ' + err); }
 		})
         
         
     }
+    async generateTodaysWeatherDetailed(city){
+        await this.getUpcommingWeather(city)
 
+        let table = <table class = {widget_style.tableEnlarged}>
+            {this.state.locationWeatherData.slice(0,8).map(record => (
+                <tr class = {widget_style.enlargedtablerow}>
+                    
+                    <td class = {widget_style.tableEnlargedtd} >{record['dt_txt'].slice(10,16)}</td>
+                    
+                    <td class = {widget_style.tableEnlargedtd}>{<img height={40} width ={40} alt="icon" src = {"https://openweathermap.org/img/wn/"+record['weather'][0]['icon']+'.png'} > </img>}</td>
+
+                    <td class = {widget_style.tableEnlargedtd}>{record['weather'][0]['main']}</td>
+                    
+                    <td class = {widget_style.tableEnlargedtd}>{Math.round(record['main']['temp'] -273.15)}°C</td>
+
+                </tr>
+            ))}
+        </table>
+        return table
+    }
 
     async generateTodaysWeather(city){
-        console.log('starting')
-        await this.getTodaysWeather(city)
+        await this.getUpcommingWeather(city)
 
-        let table = <table class = {widget_style.table}>
+        let table = <table>
             {this.state.locationWeatherData.slice(0,8).map(record => (
                 <tr class = {widget_style.closedtablerow}>
                     <td>{record['dt_txt'].slice(10,16)}</td>
-                    <td class = {widget_style.insidemidcell}>{record['weather'][0]['main']}</td>
+
+                    <td class = {widget_style.insidemidcell}>{<img height={30} width ={30} alt="icon" src = {"https://openweathermap.org/img/wn/"+record['weather'][0]['icon']+'.png'} > </img>}</td>
+
                     <td>{Math.round(record['main']['temp'] -273.15)}°C</td>
 
                 </tr>
@@ -128,10 +148,13 @@ export default class Iphone extends Component {
         return table
     }
 
+    async 
+
     async setup(){
 
         this.setState({
-            todaysLocalWeatherTable:await this.generateTodaysWeather(this.state.locallocation)
+            todaysLocalWeatherTable:await this.generateTodaysWeather(this.state.locallocation),
+            todaysLocalWeatherTableDetailed: await this.generateTodaysWeatherDetailed(this.state.locallocation)
         })
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -139,7 +162,7 @@ export default class Iphone extends Component {
 	render() {
         const {todaysLocalWeatherTable} = this.state
 
-		let defaultLocation  = <div> 
+		let defaultLocationDailySmall  = <div> 
                 <div> 
                     {/*Use Api to put default Location here. Add setting fot default location */} 
                     {this.state.locallocation} today
@@ -154,7 +177,7 @@ export default class Iphone extends Component {
 
             
         let weekWeather = <div> 
-                <div class = {style.widgetTitle}> Week Weather </div> 
+                <div > Weekly Weather </div> 
             </div>
 
         let citiesList = <div> 
@@ -168,25 +191,12 @@ export default class Iphone extends Component {
 
         {/*Content of the bubbles*/} 
 
-        let defaultLocationBubble = <div>
-                <div>
-                    <div>Weather</div>
-                    <div>Sunny</div>
-                </div>
-                <div>
-                    <div>Temperature</div>
-                    <div>10</div>
-                </div>
+        let defaultLocationDailyLarge = <div>
 
                 <div>
-                    <div>Wind</div>
-                    <div>1ms</div>
+                    {this.state.todaysLocalWeatherTableDetailed}
                 </div>
 
-                <div>
-                    <div>Humidity</div>
-                    <div>10</div>
-                </div>
             </div>
 
 
@@ -253,7 +263,7 @@ export default class Iphone extends Component {
 
 					{/*custom widgets class here, they require a position   */}
 					
-					{<Widget originalheight={200} howleft= {20} input ={defaultLocation} clickeddata={defaultLocationBubble}></Widget> }
+					{<Widget originalheight={200} howleft= {20} input ={defaultLocationDailySmall} clickeddata={defaultLocationDailyLarge}></Widget> }
 					{<Widget originalheight={200} howleft= {220} input ={weekWeather} clickeddata = {weekWeatherBubble}></Widget> }
 					{<Widget originalheight={470} howleft= {20} input ={citiesList}  clickeddata={citiesListBubble}></Widget> }
 					{<Widget originalheight={470} howleft= {220} input={alerts} clickeddata={allertsBubble}></Widget> }
