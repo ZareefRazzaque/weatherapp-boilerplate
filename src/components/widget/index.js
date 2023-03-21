@@ -6,7 +6,7 @@ export default class Widget extends Component {
 
     constructor(props){
         super(props);
-
+        //setting default states
         this.state = {
             selected:false,
             scrolling: false,
@@ -24,14 +24,18 @@ export default class Widget extends Component {
             repositionX:this.props.howleft
         }
 
+        //binding all functions 
         this.scrollNoticeTouch = this.scrollNoticeTouch.bind(this);
-        
         this.ifScrolling = this.ifScrolling.bind(this);
         this.notTouching = this.notTouching.bind(this);
         this.rearranging = this.rearranging.bind(this);
         this.rearrangeNoticeTouch = this.rearrangeNoticeTouch.bind(this)
         this.rearrangingfinish = this.rearrangingfinish.bind(this)
+        this.startclick = this.startclick.bind(this);
+        this.checkclick = this.checkclick.bind(this);
+        this.toBeginning =this.toBeginning.bind(this);
 
+        //assigning appropriate event listeners 
         document.addEventListener('mousedown', this.scrollNoticeTouch);
         document.addEventListener('mousedown', this.rearrangeNoticeTouch)
         document.addEventListener('mousemove', this.ifScrolling);
@@ -39,9 +43,8 @@ export default class Widget extends Component {
         document.addEventListener('mouseup', this.notTouching);
         document.addEventListener('mouseup', this.rearrangingfinish)
            
-        this.startclick = this.startclick.bind(this);
-        this.checkclick = this.checkclick.bind(this);
-        this.toBeginning =this.toBeginning.bind(this);
+
+
     }
 
 
@@ -101,6 +104,7 @@ export default class Widget extends Component {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //this section is dedicated to the rearrangement function of the application 
 
+    //this fuction is dedicated for the detection of a touch for the rearrange feature 
     rearrangeNoticeTouch(event){
         this.setState({
             originalposition: this.state.positionY,
@@ -121,9 +125,8 @@ export default class Widget extends Component {
             })
         }
 
-        console.log(this.state.startX, this.state.startY)
+        //this waits 2.5 seconds and checks to see whether the user has moved their mouse/finger
         setTimeout(() => {
-            //note whether the item is selected is determined by the first funciton which handles opening and closing apps
             if  ((this.state.swapother == false)&&(this.state.swap==false)&&(this.state.clicked==false) && (this.state.xinitial == event.clientX) && (this.state.yinitial == event.clientY)) {    
                 if ((this.state.selected == true)){
                     this.setState({
@@ -141,12 +144,13 @@ export default class Widget extends Component {
                     })
                 }
             }
-        }, 3000);
+        }, 2500);
     }
     
 
 
     //this code is the code resonsible allowing the user to rearrange widgets 
+    //this handles the constant repositioning as the user drags the widget 
     rearranging(event) {
         
         if (this.state.swap == true) {
@@ -168,25 +172,30 @@ export default class Widget extends Component {
     
     }
 
+
+
+    //this function calculates which widgets need to be moved 
     rearrangingfinish(event){
+
+        //the calculations for the widget being dragged
         if (this.state.swap == true){
             
-
-
+            //this if statement checks to see if the widget was dragged out of bounds
             if ((340>this.state.repositionX)&&(this.state.repositionX>-115)){
 
-                let Ycheck = this.state.universalpointY+200
+                let Ycheck = this.state.universalpointY+200 //these 3 lines work out the Y position the dragged position lands in 
                 while (this.state.repositionY > Ycheck){
                     Ycheck = Ycheck+ 270
                 }
 
-                const newpositionY = Ycheck - 200
+                const newpositionY = Ycheck - 200           //assigns the new Y value for the widget
                 this.setState({
                     positionY: newpositionY,
                     reposiitonY:newpositionY
                 })
 
 
+                //this if else statement determins whether the widget moved to the left or right column of the screen
                 if (this.state.repositionX >110){
                     this.setState({
                         positionX:220,
@@ -202,6 +211,10 @@ export default class Widget extends Component {
             }
         }
 
+
+
+
+        //this section is for the calculating of which widget moves to the position of the dragged widget
         if (this.state.swapother == true){
             var endX = event.clientX
             var endY = event.clientY
@@ -278,7 +291,9 @@ export default class Widget extends Component {
 
         this.setState({
             swap:false,
-            swapother:false
+            swapother:false,
+            repositionX:this.state.positionX,
+            repositionY:this.state.positionY
         })
 
     }
@@ -309,15 +324,16 @@ export default class Widget extends Component {
     //////////////////////////////////////////////////////////////////////////////////////////////////
     //the render function allowing for widget to be generated
     render(){
-        const {positionY, positionX,repositionY, repositionX, clicked, swap} = this.state
+        const {positionY, positionX,repositionY, repositionX, clicked, swap, scrolling} = this.state
         const { input, clickeddata} = this.props
 
         return(
             <div>
 
+
                 {( (clicked === false) && (swap == false )) && (
                     <div class = {widget_style.box} 
-                        style={{position: "absolute", top: positionY, left:positionX }}
+                        style={{position: "absolute", top: positionY, left:positionX}}
                         onMouseDown={this.startclick}
                         onMouseUp={this.checkclick}
                     >

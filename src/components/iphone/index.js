@@ -3,14 +3,17 @@ import { h, render, Component } from 'preact';
 // import stylesheets for ipad & button
 import style from './style';
 import style_iphone from '../button/style_iphone';
-import widget_style from '../widget/widget_style.less'
+import widget_style from '../widget/widget_style.less';
+import locationselection_styles from '../locationselection/locationselection.less';
 // import jquery for API calls
 import $ from 'jquery';
 // import the Button component
 import Button from '../button';
-import Widget from '../widget'
+import Widget from '../widget';
+import LocationSelectionButton from '../locationselection/index.js';
 
-import 'regenerator-runtime/runtime';
+
+import 'regenerator-runtime'
 
 export default class Iphone extends Component {
 //var Iphone = React.createClass({
