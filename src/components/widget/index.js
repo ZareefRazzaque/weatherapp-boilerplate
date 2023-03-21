@@ -1,5 +1,6 @@
 import {h, render , Component} from 'preact';
 import widget_style from './widget_style.less'
+import 'regenerator-runtime'
 
 export default class Widget extends Component {
 
@@ -27,7 +28,6 @@ export default class Widget extends Component {
         
         this.ifScrolling = this.ifScrolling.bind(this);
         this.notTouching = this.notTouching.bind(this);
-
         this.rearranging = this.rearranging.bind(this);
         this.rearrangeNoticeTouch = this.rearrangeNoticeTouch.bind(this)
         this.rearrangingfinish = this.rearrangingfinish.bind(this)
@@ -109,10 +109,6 @@ export default class Widget extends Component {
             yinitial: event.clientY,
 
 
-
-            movingtoY: this.state.positionY,
-            movingtoX: this.state.positionX,
-
             startX: event.clientX,
             startY: event.clientY
         })
@@ -124,17 +120,17 @@ export default class Widget extends Component {
                 repositionX: this.state.positionX,
             })
         }
-        else if (this.state.swapother == true){
 
-        }
-
+        console.log(this.state.startX, this.state.startY)
         setTimeout(() => {
             //note whether the item is selected is determined by the first funciton which handles opening and closing apps
-            if  ((this.state.swap==false)&&(this.state.clicked==false) && (this.state.originalposition == this.state.positionY)) {    
+            if  ((this.state.swapother == false)&&(this.state.swap==false)&&(this.state.clicked==false) && (this.state.xinitial == event.clientX) && (this.state.yinitial == event.clientY)) {    
                 if ((this.state.selected == true)){
                     this.setState({
                         swap:true,
                         scrolling: false,
+                        newpositionY:this.state.positionY,
+                        repositionY:this.state.positionY
                     })
                 }
 
@@ -145,7 +141,7 @@ export default class Widget extends Component {
                     })
                 }
             }
-        }, 2000);
+        }, 3000);
     }
     
 
@@ -169,31 +165,6 @@ export default class Widget extends Component {
                 repositionX: newpositionX,
             })
         }
-        
-
-
-        else if (this.state.swapother == true) {
-
-            const changeY = event.clientY - this.state.yinitial
-            const changeX = event.clientX - this.state.xinitial
-
-            const newpositionY = this.state.movingtoY + changeY
-            const newpositionX = this.state.movingtoX + changeX
-
-
-            this.setState({
-                yinitial: event.clientY,
-                xinitial: event.clientX,
-
-                movingtoY: newpositionY,
-                movingtoX: newpositionX,
-            })
-
-        }
-
-
-
-        
     
     }
 
@@ -202,7 +173,7 @@ export default class Widget extends Component {
             
 
 
-            if (340>this.state.repositionX>-115){
+            if ((340>this.state.repositionX)&&(this.state.repositionX>-115)){
 
                 let Ycheck = this.state.universalpointY+200
                 while (this.state.repositionY > Ycheck){
@@ -232,7 +203,76 @@ export default class Widget extends Component {
         }
 
         if (this.state.swapother == true){
+            var endX = event.clientX
+            var endY = event.clientY
 
+            var changeX = endX - this.state.startX
+            var changeY = endY - this.state.startY
+
+
+            if (((20<this.state.startX)&&(this.state.startX<200))||((220<this.state.startX)&&(this.state.startX<380))){
+                
+                var checkY = this.state.universalpointY
+                while ((this.state.startY - checkY)>250){
+                    checkY= checkY + 270
+                }
+                var startposY = checkY 
+
+
+                if ((this.state.startY - checkY)>0){
+
+                    if ((20<this.state.startX)&&(this.state.startX<200)){
+                        this.setState({
+                            startX: 20
+                        })
+                    }
+                    
+                    
+                    else if ((220<this.state.startX)&&(this.state.startX<380)) {
+                        
+                        this.setState({
+                            startX:220
+                        })
+                    }
+
+                    endX = this.state.startX + changeX
+                    endY = this.state.startY + changeY
+
+                    console.log(endX, endY)
+
+                    var checkY = this.state.universalpointY
+                    while ((endY - checkY)>250){
+                        checkY= checkY + 270
+                    }
+                    var endposY = checkY 
+
+                    if (endX > 110){
+                        endX = 220
+                    }
+                    else{
+                        endX = 20
+                    }
+                    
+
+                    if ((endX == this.state.positionX) && (endposY == this.state.positionY)){
+
+                        console.log("working")
+                        console.log()
+                        this.setState({
+                            positionY: startposY,
+                            positionX: this.state.startX
+                        })
+                    }
+                    
+
+                    /*
+                    this.setState({nd
+                        positionY:checkY,
+                        positionX:this.state.startX
+                    })*/
+
+                }
+            } 
         }
 
 
@@ -240,8 +280,6 @@ export default class Widget extends Component {
             swap:false,
             swapother:false
         })
-
-
 
     }
 
@@ -301,9 +339,6 @@ export default class Widget extends Component {
                     </div>
                 )}
 
-
-
-                
 
                 {( clicked === true ) && (
                     <div class = {widget_style.whole}>
