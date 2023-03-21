@@ -25,7 +25,7 @@ export default class Iphone extends Component {
 		this.state.temp = "";
 		// button display state
 		this.setState({ display: true,
-        locallocation: "London"  });
+        defaultLocation: "London"  });
 		this.fetchWeatherData()
 
         this.parseCoordinates =this.parseCoordinates.bind(this)
@@ -33,6 +33,7 @@ export default class Iphone extends Component {
         this.parseUpcommingWeather = this.parseUpcommingWeather.bind(this)
         this.getUpcommingWeather = this.getUpcommingWeather.bind(this)
         this.generateTodaysWeather = this.generateTodaysWeather.bind(this)
+        this.changeDefaultLocation = this.changeDefaultLocation.bind(this)
         this.setup = this.setup.bind(this)
         this.setup()
         
@@ -151,28 +152,36 @@ export default class Iphone extends Component {
         return table
     }
 
-    async 
 
     async setup(){
 
         this.setState({
-            todaysLocalWeatherTable:await this.generateTodaysWeather(this.state.locallocation),
-            todaysLocalWeatherTableDetailed: await this.generateTodaysWeatherDetailed(this.state.locallocation)
+            todaysLocalWeatherTable:await this.generateTodaysWeather(this.state.defaultLocation),
+            todaysLocalWeatherTableDetailed: await this.generateTodaysWeatherDetailed(this.state.defaultLocation)
         })
+    }
+
+
+    changeDefaultLocation(city){
+        this.setState({
+            defaultLocation:city
+        })
+        this.setup()
+        
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// the main render method for the iphone component
 	render() {
-        const {todaysLocalWeatherTable} = this.state
+        const {todaysLocalWeatherTable, defaultLocation} = this.state
 
 		let defaultLocationDailySmall  = <div> 
                 <div> 
                     {/*Use Api to put default Location here. Add setting fot default location */} 
-                    {this.state.locallocation} today
+                    {defaultLocation} today
 
 
                     <div>
-                    {this.state.todaysLocalWeatherTable}
+                    {todaysLocalWeatherTable}
                     </div>
 
                 </div> 
@@ -251,16 +260,9 @@ export default class Iphone extends Component {
 		// display all weather data
 		return (
 			<div class={ style.container }>
+                {<LocationSelectionButton defaultLocation = {this.state.defaultLocation} function={this.changeDefaultLocation}></LocationSelectionButton>}
 				
-				<div class={ style.header }> 
-					<div class={ style.city }>{ this.state.locate }</div>			
-					<div class={ style.conditions }>{ this.state.cond }</div>
-					
-				</div>
-				<div class={ style.details }></div>
-				<div class= { style_iphone.container }> 
 
-				</div>
 				<div>
 
 
@@ -276,10 +278,5 @@ export default class Iphone extends Component {
 			</div>
 		);
 	}
-
-
-
-	
-
 
 }
