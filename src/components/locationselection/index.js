@@ -32,9 +32,23 @@ export default class LocationSelectionButton extends Component{
     scrollNoticeTouch(event){
         this.setState({
             scrolling:true,
+            clicked:true,
             yinitial: event.clientY, //takes details of where the user touched the screen
+            xinitial: event.clientX
         });
+    
+        setTimeout(() => {
+            if  ((this.state.clicked==true) && (this.state.xinitial == event.clientX) && (this.state.yinitial == event.clientY)) {
+                this.setState({
+                    scrolling:false
+                })
+            }    
+        }, 2500);
     }
+    
+    
+    
+    
 
     //checks to see if the user is dragging their finger accross the screen 
     ifScrolling(event){
@@ -52,6 +66,7 @@ export default class LocationSelectionButton extends Component{
     notTouching(event){
         this.setState({
             scrolling: false,
+            clicked:false
 
         })
     }
