@@ -7,13 +7,15 @@ export default class LocationSelectionButton extends Component{
         super(props)
         this.state = {
             scrolling:false,
-            positionY:100
+            positionY:70,
+            changing: true
         }
 
         this.scrollNoticeTouch = this.scrollNoticeTouch.bind(this)
         this.ifScrolling = this.ifScrolling.bind(this)
         this.notTouching = this.notTouching.bind(this)
         this.changeLocation = this.changeLocation.bind(this)
+        this.buttonclicked = this.buttonclicked.bind(this)
 
         document.addEventListener('mousedown', this.scrollNoticeTouch)
         document.addEventListener('mousemove', this.ifScrolling)
@@ -56,7 +58,14 @@ export default class LocationSelectionButton extends Component{
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //this is dedicated to the changing location fucntion
+    buttonclicked(){
+        this.setState({
+            changing:true
+        })
+    }
+
     changeLocation(city){
+        this.setState({changing:false})
         this.props.function(city)
     }
 
@@ -64,12 +73,33 @@ export default class LocationSelectionButton extends Component{
 
     render(){
         let {defaultLocation} = this.props
+        let {changing} = this.state
         let time = Date()
 
         return(
-            <div class= {locationselction_styles.box} onClick={() => this.changeLocation("New York")} style={{position: "absolute", top: this.state.positionY }}>
-                {defaultLocation}
-                <br></br>{time.slice(0,15)}
+            <div>
+                {(changing === false)&&(<div class= {locationselction_styles.box} style={{position: "absolute", top: this.state.positionY }}>
+                    <div>
+                        {defaultLocation}
+                        <br></br>{time.slice(0,15)}
+                    </div>
+                    
+                        <button onClick={this.buttonclicked}>
+                            Change Home Location
+                        </button>
+                    </div>
+                )}
+
+                {(changing === true)&&(
+                    <div >
+                        <img class = {locationselction_styles.map} width= {800}  alt = "map" src = './../../assets/worldmap/worldmap.jpg'></img>
+                        <img class = {locationselction_styles.location} style={{transform: "translate(57pt, 183pt) rotateZ(90deg)"}} width ={40} src='./../../assets/icons/city.png' onClick={() => this.changeLocation("London")}></img>
+                        <img class = {locationselction_styles.location} style={{transform: "translate(30pt, 376pt) rotateZ(90deg)"}} width ={40} src='./../../assets/icons/city.png' onClick={() => this.changeLocation("Beijing")}></img>
+                        <img class = {locationselction_styles.location} style={{transform: "translate(-103pt, 425pt) rotateZ(90deg)"}} width ={40} src='./../../assets/icons/city.png' onClick={() => this.changeLocation("Melbourne")}></img>
+                        <img class = {locationselction_styles.location} style={{transform: "translate(-60pt, 110pt) rotateZ(90deg)"}} width ={40} src='./../../assets/icons/city.png' onClick={() => this.changeLocation("Brasilia")}></img>
+
+                    </div>
+                )}
             </div>
         )
     }

@@ -360,7 +360,7 @@ export default class Widget extends Component {
                     <div class = {widget_style.whole}>
 
                         <button class = {widget_style.backbutton } onclick = {this.toBeginning}>
-                                <img alt='back' src='./../../assets/icons/backarrow.png' width="50" height ="40" ></img>
+                                <img alt='back' src='./../../assets/icons/closewindow.png' width="80" height ="80" ></img>
                         </button>
                             {clickeddata}
                     </div>
