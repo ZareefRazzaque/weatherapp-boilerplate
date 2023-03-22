@@ -164,12 +164,12 @@ export default class Iphone extends Component {
                 
             }
         }
-        console.log("running")
+        console.log(days)
 
         let table = <table>
             {array.map(record => (
                 <tr class = {widget_style.closedtablerow}>
-                    <td>{record['dt_txt']}</td>
+                    <td>{new Date(record['dt_txt']).toLocaleDateString('en-UK', { weekday: 'long' }).slice(0,3)}</td>
 
                     <td class = {widget_style.insidemidcell}>{<img height={30} width ={30} alt="icon" src = {"https://openweathermap.org/img/wn/"+record['weather'][0]['icon']+'.png'} > </img>}</td>
 
@@ -227,7 +227,6 @@ export default class Iphone extends Component {
 
                 <div>
                     {weeksLocalWeatherTable}
-                    testing
                 </div>
 
             </div>
