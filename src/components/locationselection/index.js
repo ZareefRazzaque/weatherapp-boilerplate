@@ -7,8 +7,8 @@ export default class LocationSelectionButton extends Component{
         super(props)
         this.state = {
             scrolling:false,
-            positionY:70,
-            changing: true
+            positionY:50,
+            changing: false
         }
 
         this.scrollNoticeTouch = this.scrollNoticeTouch.bind(this)
