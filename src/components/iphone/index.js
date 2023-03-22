@@ -34,6 +34,7 @@ export default class Iphone extends Component {
         this.getUpcommingWeather = this.getUpcommingWeather.bind(this)
         this.generateTodaysWeather = this.generateTodaysWeather.bind(this)
         this.changeDefaultLocation = this.changeDefaultLocation.bind(this)
+        this.generateWeeksWeather = this.generateWeeksWeather.bind(this)
         this.setup = this.setup.bind(this)
         this.setup()
         
@@ -75,7 +76,6 @@ export default class Iphone extends Component {
             lat: latitude,
             lon: longatude
         })
-        console.log(this.state.lat,this.state.lon)
     }
 
     async pullCityCoordinates(city){
@@ -90,18 +90,15 @@ export default class Iphone extends Component {
 
 
     parseUpcommingWeather(json){
-        console.log("running")
         var data = json['list']
         this.setState({
             locationWeatherData:data
         })
-        console.log(data)
     }
 
     async getUpcommingWeather(city){
         await this.pullCityCoordinates(city)
         var string = 'http://api.openweathermap.org/data/2.5/forecast?lat='+this.state.lat+'&lon='+this.state.lon+'&appid=e6e37f49ba7373ea798d418e80e6a3d4'
-        console.log(string)
          await $.ajax({
 			url: string,
 			dataType: "jsonp",
@@ -152,13 +149,50 @@ export default class Iphone extends Component {
         return table
     }
 
+    async generateWeeksWeather(city){
+        await this.getUpcommingWeather(city)
+        var date = 0
+        let array = []
+        let days = []
+        for (var i in this.state.locationWeatherData){
+            if (date != this.state.locationWeatherData[i]['dt_txt'].slice(0,10)){
+                date = this.state.locationWeatherData[i]['dt_txt'].slice(0,10)
+
+                array.push(this.state.locationWeatherData[i])
+                
+                days.push(new Date(date).getDay())
+                
+            }
+        }
+        console.log("running")
+
+        let table = <table>
+            {array.map(record => (
+                <tr class = {widget_style.closedtablerow}>
+                    <td>{record['dt_txt']}</td>
+
+                    <td class = {widget_style.insidemidcell}>{<img height={30} width ={30} alt="icon" src = {"https://openweathermap.org/img/wn/"+record['weather'][0]['icon']+'.png'} > </img>}</td>
+
+                    <td>{Math.round(record['main']['temp'] -273.15)}°C</td>
+
+                </tr>
+            ))}
+
+        </table>
+        console.log(table)
+
+        return table
+    }
+
 
     async setup(){
 
         this.setState({
             todaysLocalWeatherTable:await this.generateTodaysWeather(this.state.defaultLocation),
-            todaysLocalWeatherTableDetailed: await this.generateTodaysWeatherDetailed(this.state.defaultLocation)
+            todaysLocalWeatherTableDetailed: await this.generateTodaysWeatherDetailed(this.state.defaultLocation),
+            weeksLocalWeatherTable:await this.generateWeeksWeather(this.state.defaultLocation)
         })
+        console.log(this.state.weeksLocalWeatherTable)
     }
 
 
@@ -172,7 +206,7 @@ export default class Iphone extends Component {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// the main render method for the iphone component
 	render() {
-        const {todaysLocalWeatherTable, defaultLocation} = this.state
+        const {todaysLocalWeatherTable,weeksLocalWeatherTable,defaultLocation} = this.state
 
 		let defaultLocationDailySmall  = <div> 
                 <div> 
@@ -190,6 +224,12 @@ export default class Iphone extends Component {
             
         let weekWeather = <div> 
                 <div > Weekly Weather </div> 
+
+                <div>
+                    {weeksLocalWeatherTable}
+                    testing
+                </div>
+
             </div>
 
         let citiesList = <div> 
