@@ -317,6 +317,11 @@ export default class Iphone extends Component {
                 <div>EARTHQUAKE WARNING (under construction)</div>
             </div>
 
+        let precipitation = <div>
+            <div> Precipitation </div>
+            <img src = './../../assets/backgrounds/rain.gif'></img>
+        </div>
+
 
         {/*Content of the bubbles*/} 
 
@@ -352,6 +357,10 @@ export default class Iphone extends Component {
             </div>
         </div>
 
+        let precipitationBubble = <div>
+            <div> Precipitation Level</div>
+        </div>
+
 
 		// display all weather data
 		return (
@@ -365,6 +374,7 @@ export default class Iphone extends Component {
 					{<Widget originalheight={200} howleft= {220} input ={weekWeather} clickeddata = {weekWeatherEnlarged}></Widget> }
 					{<Widget originalheight={470} howleft= {20} input ={otherCities}  clickeddata={citiesListBubble}></Widget> }
 					{<Widget originalheight={470} howleft= {220} input={alerts} clickeddata={allertsBubble}></Widget> }
+                    {<Widget originalheight={740} howleft= {20} input={precipitation} clickeddata={precipitationBubble}></Widget> }
 					
 				</div>
 
