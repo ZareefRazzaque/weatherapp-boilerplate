@@ -313,6 +313,8 @@ export default class Iphone extends Component {
 
         let alerts = <div> 
                 <div> Weather Alerts</div> 
+                <div><img src='.../.../assets/icons/warning-sign.png' style='width:50px;height:50px;'></img></div>
+                <div>EARTHQUAKE WARNING (under construction)</div>
             </div>
 
 
