@@ -35,6 +35,7 @@ export default class Iphone extends Component {
         this.generateTodaysWeather = this.generateTodaysWeather.bind(this)
         this.changeDefaultLocation = this.changeDefaultLocation.bind(this)
         this.generateWeeksWeather = this.generateWeeksWeather.bind(this)
+        this.generateWeeksWeatherDetailed =this.generateWeeksWeatherDetailed.bind(this)
         this.setup = this.setup.bind(this)
         this.setup()
         
@@ -108,6 +109,45 @@ export default class Iphone extends Component {
         
         
     }
+
+    async generateWeeksWeatherDetailed(city){
+        await this.getUpcommingWeather(city)
+        var date = 0
+        let array = []
+        let days = []
+        for (var i in this.state.locationWeatherData){
+            if (date != this.state.locationWeatherData[i]['dt_txt'].slice(0,10)){
+                date = this.state.locationWeatherData[i]['dt_txt'].slice(0,10)
+
+                array.push(this.state.locationWeatherData[i])
+                
+                days.push(new Date(date).getDay())
+                
+            }
+        }
+        console.log(days)
+
+        let table = <table class = {widget_style.tableEnlarged}>
+            {array.map(record => (
+                <tr class = {widget_style.enlargedtablerow}>
+                    <td class={widget_style.tableEnlargedtd}>{new Date(record['dt_txt']).toLocaleDateString('en-UK', { weekday: 'long' }).slice(0,3)}</td>
+
+                    <td class = {widget_style.tableEnlargedtd}>{<img height={30} width ={30} alt="icon" src = {"https://openweathermap.org/img/wn/"+record['weather'][0]['icon']+'.png'} > </img>}</td>
+                    <td class = {widget_style.tableEnlargedtd}> {record['weather'][0]['main']} </td>
+
+                    <td class = {widget_style.tableEnlargedtd}>{Math.round(record['main']['temp'] -273.15)}°C</td>
+
+                </tr>
+            ))}
+            
+
+        </table>
+        console.log(table)
+
+        return table
+    }
+
+
     async generateTodaysWeatherDetailed(city){
         await this.getUpcommingWeather(city)
 
@@ -177,6 +217,7 @@ export default class Iphone extends Component {
 
                 </tr>
             ))}
+            
 
         </table>
         console.log(table)
@@ -185,12 +226,14 @@ export default class Iphone extends Component {
     }
 
 
+
     async setup(){
 
         this.setState({
             todaysLocalWeatherTable:await this.generateTodaysWeather(this.state.defaultLocation),
             todaysLocalWeatherTableDetailed: await this.generateTodaysWeatherDetailed(this.state.defaultLocation),
-            weeksLocalWeatherTable:await this.generateWeeksWeather(this.state.defaultLocation)
+            weeksLocalWeatherTable:await this.generateWeeksWeather(this.state.defaultLocation),
+            weeksLocalWeatherTableDetailed:await this.generateWeeksWeatherDetailed(this.state.defaultLocation)
         })
         console.log(this.state.weeksLocalWeatherTable)
     }
@@ -206,7 +249,7 @@ export default class Iphone extends Component {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// the main render method for the iphone component
 	render() {
-        const {todaysLocalWeatherTable,weeksLocalWeatherTable,defaultLocation} = this.state
+        const {todaysLocalWeatherTable,todaysLocalWeatherTableDetailed,weeksLocalWeatherTable,weeksLocalWeatherTableDetailed ,defaultLocation} = this.state
 
 		let defaultLocationDailySmall  = <div> 
                 <div> 
@@ -245,35 +288,14 @@ export default class Iphone extends Component {
         let defaultLocationDailyLarge = <div>
 
                 <div>
-                    {this.state.todaysLocalWeatherTableDetailed}
+                    {todaysLocalWeatherTableDetailed}
                 </div>
 
             </div>
 
 
-        let weekWeatherBubble = <div>
-            <div>
-                <div>Monday</div>
-                <div>Sunny</div>
-            </div>
-
-            <div>
-                <div>Tueday</div>
-                <div>Sunny</div>
-            </div>
-
-            <div>
-                <div>Wednesday</div>
-                <div>Sunny</div>
-            </div>
-            <div>
-                <div>Thurday</div>
-                <div>Sunny</div>
-            </div>
-            <div>
-                <div>Friday</div>
-                <div>Sunny</div>
-            </div>
+        let weekWeatherEnlarged = <div>
+            {weeksLocalWeatherTableDetailed}
         </div>
 
         let citiesListBubble = <div>
@@ -301,14 +323,11 @@ export default class Iphone extends Component {
 			<div class={ style.container }>
                 {<LocationSelectionButton defaultLocation = {this.state.defaultLocation} function={this.changeDefaultLocation}></LocationSelectionButton>}
 				
-
-				<div>
-
-
+                <div>
 					{/*custom widgets class here, they require a position   */}
 					
 					{<Widget originalheight={200} howleft= {20} input ={defaultLocationDailySmall} clickeddata={defaultLocationDailyLarge}></Widget> }
-					{<Widget originalheight={200} howleft= {220} input ={weekWeather} clickeddata = {weekWeatherBubble}></Widget> }
+					{<Widget originalheight={200} howleft= {220} input ={weekWeather} clickeddata = {weekWeatherEnlarged}></Widget> }
 					{<Widget originalheight={470} howleft= {20} input ={citiesList}  clickeddata={citiesListBubble}></Widget> }
 					{<Widget originalheight={470} howleft= {220} input={alerts} clickeddata={allertsBubble}></Widget> }
 					

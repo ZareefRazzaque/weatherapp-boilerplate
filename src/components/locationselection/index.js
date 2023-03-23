@@ -46,9 +46,6 @@ export default class LocationSelectionButton extends Component{
         }, 2500);
     }
     
-    
-    
-    
 
     //checks to see if the user is dragging their finger accross the screen 
     ifScrolling(event){
