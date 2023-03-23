@@ -374,8 +374,8 @@ export default class Widget extends Component {
                 {( clicked === true ) && (
                     <div class = {widget_style.whole}>
 
-                        <button class = {widget_style.backbutton } onclick = {this.toBeginning}>
-                                <img alt='back' src='./../../assets/icons/closewindow.png' width="80" height ="80" ></img>
+                        <button class = {widget_style.backbutton} onclick = {this.toBeginning}>
+                                <img alt='back' src='./../../assets/icons/closewindow.png' width="47" height ="15" ></img>
                         </button>
                             {clickeddata}
                     </div>

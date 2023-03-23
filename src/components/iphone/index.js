@@ -42,10 +42,11 @@ export default class Iphone extends Component {
         this.OtherLocationsWidgetFunction = this.OtherLocationsWidgetFunction.bind(this)
         this.setup = this.setup.bind(this)
         this.setup()
-        this.OtherLocationsWidgetFunction()
+        this.OtherLocationsWidgetFunction()        
         setInterval(() => { this.OtherLocationsWidgetFunction()
             
         }, 5000);
+
 
         
 	}
@@ -404,9 +405,8 @@ let currentTemp = <div>
 return (
 <div class={ style.container }>
     <div class= {style.header}>
-        <div class={style.city}>{this.state.locate}</div>
-        <div class={style.conditions}>{this.state.description}</div>
-        {<LocationSelectionButton defaultLocation = {this.state.defaultLocation} function={this.changeDefaultLocation}></LocationSelectionButton>}
+
+        {<LocationSelectionButton defaultLocation = {this.state.defaultLocation} function={this.changeDefaultLocation}  basicweather= {this.state.description} ></LocationSelectionButton>}
     </div>
 
     <div>
