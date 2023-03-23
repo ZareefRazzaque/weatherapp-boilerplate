@@ -337,7 +337,9 @@ export default class Iphone extends Component {
         let alerts = <div> 
                 <div> Weather Alerts</div> 
                 <div><img src='./../../assets/icons/warning-sign.png' style='width:50px;height:50px;'></img></div>
-                <div>EARTHQUAKE WARNING (under construction)</div>
+                <div style='font-weight:bold'>EARTHQUAKE WARNING</div>
+                <div>Severity: Moderate</div>
+                <div>Estimated Time: 8:02pm</div>
             </div>
 
         let precipitation = <div>
@@ -377,16 +379,19 @@ let currentTemp = <div>
             <div>
                 {<Widget originalheight={200} howleft= {20} input ={defaultLocationDailySmall} clickeddata={defaultLocationDailyLarge}></Widget> }
                 {<Widget originalheight={200} howleft= {220} input ={weekWeather} clickeddata = {weekWeatherEnlarged}></Widget> }
-                {<Widget originalheight={470} howleft= {220} input={alerts} clickeddata={allertsBubble}></Widget> }
+                {<Widget originalheight={470} howleft= {220} input={alerts} clickeddata={alertsBubble}></Widget> }
                 {<Widget originalheight={470} howleft= {20} input={precipitation} clickeddata={precipitationBubble}></Widget> }
             </div>
 
         </div>
 
-        let allertsBubble = <div>
-            <div>
-                <div>Wind</div>
-                <div>400ms</div>
+        let alertsBubble = <div>
+            <div class={style.alert}>
+                <div style='font-weight:bold'>EARTHQUAKE WARNING</div>
+                <div>Severity: Moderate</div>
+                <div>Urgency: Expected Soon</div>
+                <div>Certainty: Likely</div>
+                <div>Estimated Time: 8:02pm</div>
             </div>
         </div>
 
@@ -411,7 +416,7 @@ return (
         {<Widget originalheight={200} howleft= {20} input ={defaultLocationDailySmall} clickeddata={defaultLocationDailyLarge}></Widget> }
         {<Widget originalheight={470} howleft= {220} input ={weekWeather} clickeddata = {weekWeatherEnlarged}></Widget> }
         {<Widget originalheight={470} howleft= {20} input ={otherCities}  clickeddata={citiesListBubble}></Widget> }
-        {<Widget originalheight={740} howleft= {220} input={alerts} clickeddata={allertsBubble}></Widget> }
+        {<Widget originalheight={740} howleft= {220} input={alerts} clickeddata={alertsBubble}></Widget> }
         {<Widget originalheight={740} howleft= {20} input={precipitation} clickeddata={precipitationBubble}></Widget> }
 
     </div>
