@@ -7,7 +7,7 @@ export default class LocationSelectionButton extends Component{
         super(props)
         this.state = {
             scrolling:false,
-            positionY:50,
+            positionY:10,
             changing: false
         }
 
@@ -49,12 +49,13 @@ export default class LocationSelectionButton extends Component{
 
     //checks to see if the user is dragging their finger accross the screen
     ifScrolling(event){
+        console.log("testing")
         if (this.state.scrolling == true){
             const changeY = event.clientY-this.state.yinitial   //calculates how much the user is scrolling
             const newposition =  this.state.positionY + changeY
             this.setState({
                 yinitial: event.clientY,
-                positionY: newposition ,
+                positionY: newposition,
             })
         }
     }
@@ -69,7 +70,7 @@ export default class LocationSelectionButton extends Component{
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    //this is dedicated to the changing location fucntion
+    //this is dedicated to the changing location function
     buttonclicked(){
         this.setState({
             changing:true
@@ -81,16 +82,23 @@ export default class LocationSelectionButton extends Component{
         this.props.function(city)
     }
 
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
     render(){
-        let {defaultLocation} = this.props
+        let {defaultLocation, basicweather} = this.props
         let {changing} = this.state
         let time = Date()
 
         return(
             <div>
-                {(changing === false)&&(<div class= {locationselction_styles.box} style={{position: "sticky", top: this.state.positionY }}>
+
+                {(changing === false)&&(<div class= {locationselction_styles.box} style={{position: "absolute", top: this.state.positionY }}>
+                {defaultLocation}
+
+                <div class = {locationselction_styles.smaller}> {basicweather} </div>
+                
                 		<div class= {locationselction_styles.time}>
-                			{time.slice(0,15)}
+                		{time.slice(0,15)}
                 		</div>
                         <button onClick={this.buttonclicked}>
                             Change Home Location
@@ -101,10 +109,10 @@ export default class LocationSelectionButton extends Component{
                 {(changing === true)&&(
                     <div >
                         <img class = {locationselction_styles.map} width= {800}  alt = "map" src = './../../assets/worldmap/worldmap.jpg'></img>
-                        <img class = {locationselction_styles.location} style={{transform: "translate(57pt, 183pt) rotateZ(90deg)"}} width ={40} src='./../../assets/icons/city.png' onClick={() => this.changeLocation("London")}></img>
-                        <img class = {locationselction_styles.location} style={{transform: "translate(30pt, 376pt) rotateZ(90deg)"}} width ={40} src='./../../assets/icons/city.png' onClick={() => this.changeLocation("Beijing")}></img>
-                        <img class = {locationselction_styles.location} style={{transform: "translate(-103pt, 425pt) rotateZ(90deg)"}} width ={40} src='./../../assets/icons/city.png' onClick={() => this.changeLocation("Melbourne")}></img>
-                        <img class = {locationselction_styles.location} style={{transform: "translate(-60pt, 110pt) rotateZ(90deg)"}} width ={40} src='./../../assets/icons/city.png' onClick={() => this.changeLocation("Brasilia")}></img>
+                        <img class = {locationselction_styles.location} style={{transform: "translate(57pt, 760%) rotateZ(90deg)"}} width ={40} src='./../../assets/icons/city.png' onClick={() => this.changeLocation("London")}></img>
+                        <img class = {locationselction_styles.location} style={{transform: "translate(30pt, 1400%) rotateZ(90deg)"}} width ={40} src='./../../assets/icons/city.png' onClick={() => this.changeLocation("Beijing")}></img>
+                        <img class = {locationselction_styles.location} style={{transform: "translate(-103pt, 1570%) rotateZ(90deg)"}} width ={40} src='./../../assets/icons/city.png' onClick={() => this.changeLocation("Melbourne")}></img>
+                        <img class = {locationselction_styles.location} style={{transform: "translate(-60pt, 500%) rotateZ(90deg)"}} width ={40} src='./../../assets/icons/city.png' onClick={() => this.changeLocation("Brasilia")}></img>
 
                     </div>
                 )}
