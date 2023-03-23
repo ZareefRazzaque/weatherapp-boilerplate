@@ -49,7 +49,7 @@ export default class Iphone extends Component {
 
         
 	}
-    
+
 	getDirection = (heading) => {
 		var directions = ["North", "North-East", "East", "South-East", "South", "South-West", "West", "North-West"]
 		var index = Math.round((heading/8)/5,625)
@@ -390,10 +390,9 @@ let currentTemp = <div>
             </div>
         </div>
 
-let precipitationBubble = <div>
-<div> Precipitation Level</div>
-<div></div>
-</div>
+        let precipitationBubble = <div class = {style.precip} >
+        <img src = './../../assets/backgrounds/rainfall.png' width = "400" height = "250"></img>
+        </div>
 
 
 // display all weather data
