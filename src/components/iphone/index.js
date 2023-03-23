@@ -24,8 +24,11 @@ export default class Iphone extends Component {
 		// temperature state
 		this.state.temp = "";
 		// button display state
-		this.setState({ display: true,
-        defaultLocation: "London"  });
+		this.setState({ 
+            display: true,
+            defaultLocation: "London",  
+            otherLocationArrayPos:0
+        });
 		this.fetchWeatherData()
 
         this.parseCoordinates =this.parseCoordinates.bind(this)
@@ -36,8 +39,14 @@ export default class Iphone extends Component {
         this.changeDefaultLocation = this.changeDefaultLocation.bind(this)
         this.generateWeeksWeather = this.generateWeeksWeather.bind(this)
         this.generateWeeksWeatherDetailed =this.generateWeeksWeatherDetailed.bind(this)
+        this.OtherLocationsWidgetFunction = this.OtherLocationsWidgetFunction.bind(this)
         this.setup = this.setup.bind(this)
         this.setup()
+        this.OtherLocationsWidgetFunction()
+        setInterval(() => { this.OtherLocationsWidgetFunction()
+            
+        }, 5000);
+
         
 	}
 	//function assigns variable values from the json file to ones that can be used in the application 
@@ -105,9 +114,7 @@ export default class Iphone extends Component {
 			dataType: "jsonp",
 			success : this.parseUpcommingWeather,
 			error : function(req, err){ console.log('API call failed ' + err); }
-		})
-        
-        
+		}) 
     }
 
     async generateWeeksWeatherDetailed(city){
@@ -226,6 +233,31 @@ export default class Iphone extends Component {
     }
 
 
+    async OtherLocationsWidgetFunction(){
+        var otherlocations =['Melbourne','Beijing','London','Brasilia']
+        
+        if (this.state.otherLocationArrayPos+1 >= otherlocations.length ){
+            this.setState({
+                otherLocationArrayPos:0
+            })
+        }
+        else{
+            this.setState({
+                otherLocationArrayPos: this.state.otherLocationArrayPos+1
+            })
+
+        }
+
+
+        this.setState({
+            otherLocationSelected: otherlocations[this.state.otherLocationArrayPos],
+            otherLocationDailyTable: await this.generateWeeksWeather(otherlocations[this.state.otherLocationArrayPos])
+        })
+
+        
+    }
+
+
 
     async setup(){
 
@@ -249,7 +281,7 @@ export default class Iphone extends Component {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// the main render method for the iphone component
 	render() {
-        const {todaysLocalWeatherTable,todaysLocalWeatherTableDetailed,weeksLocalWeatherTable,weeksLocalWeatherTableDetailed ,defaultLocation} = this.state
+        const {todaysLocalWeatherTable,todaysLocalWeatherTableDetailed, weeksLocalWeatherTable,weeksLocalWeatherTableDetailed,otherLocationDailyTable,otherLocationSelected ,defaultLocation} = this.state
 
 		let defaultLocationDailySmall  = <div> 
                 <div> 
@@ -274,8 +306,10 @@ export default class Iphone extends Component {
 
             </div>
 
-        let citiesList = <div> 
-                <div> Other Locations </div> 
+        let otherCities = <div> 
+                <div> Other Locations </div>
+                <div>Weather {otherLocationSelected}</div> 
+                <div>{otherLocationDailyTable}</div>
             </div>
 
         let alerts = <div> 
@@ -328,7 +362,7 @@ export default class Iphone extends Component {
 					
 					{<Widget originalheight={200} howleft= {20} input ={defaultLocationDailySmall} clickeddata={defaultLocationDailyLarge}></Widget> }
 					{<Widget originalheight={200} howleft= {220} input ={weekWeather} clickeddata = {weekWeatherEnlarged}></Widget> }
-					{<Widget originalheight={470} howleft= {20} input ={citiesList}  clickeddata={citiesListBubble}></Widget> }
+					{<Widget originalheight={470} howleft= {20} input ={otherCities}  clickeddata={citiesListBubble}></Widget> }
 					{<Widget originalheight={470} howleft= {220} input={alerts} clickeddata={allertsBubble}></Widget> }
 					
 				</div>
