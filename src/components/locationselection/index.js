@@ -24,7 +24,7 @@ export default class LocationSelectionButton extends Component{
 
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////////////////
     //this section is dedicated to the scrolling of the title
 
@@ -36,30 +36,30 @@ export default class LocationSelectionButton extends Component{
             yinitial: event.clientY, //takes details of where the user touched the screen
             xinitial: event.clientX
         });
-    
+
         setTimeout(() => {
             if  ((this.state.clicked==true) && (this.state.xinitial == event.clientX) && (this.state.yinitial == event.clientY)) {
                 this.setState({
                     scrolling:false
                 })
-            }    
+            }
         }, 2500);
     }
-    
 
-    //checks to see if the user is dragging their finger accross the screen 
+
+    //checks to see if the user is dragging their finger accross the screen
     ifScrolling(event){
         if (this.state.scrolling == true){
             const changeY = event.clientY-this.state.yinitial   //calculates how much the user is scrolling
             const newposition =  this.state.positionY + changeY
             this.setState({
-                yinitial: event.clientY,   
+                yinitial: event.clientY,
                 positionY: newposition ,
             })
         }
     }
 
-    //this stops scrolling when the user stops touching 
+    //this stops scrolling when the user stops touching
     notTouching(event){
         this.setState({
             scrolling: false,
@@ -81,8 +81,6 @@ export default class LocationSelectionButton extends Component{
         this.props.function(city)
     }
 
-
-
     render(){
         let {defaultLocation} = this.props
         let {changing} = this.state
@@ -90,12 +88,10 @@ export default class LocationSelectionButton extends Component{
 
         return(
             <div>
-                {(changing === false)&&(<div class= {locationselction_styles.box} style={{position: "absolute", top: this.state.positionY }}>
-                    <div>
-                        {defaultLocation}
-                        <br></br>{time.slice(0,15)}
-                    </div>
-                    
+                {(changing === false)&&(<div class= {locationselction_styles.box} style={{position: "sticky", top: this.state.positionY }}>
+                		<div class= {locationselction_styles.time}>
+                			{time.slice(0,15)}
+                		</div>
                         <button onClick={this.buttonclicked}>
                             Change Home Location
                         </button>
