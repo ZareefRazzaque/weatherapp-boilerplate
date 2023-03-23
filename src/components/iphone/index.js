@@ -306,9 +306,8 @@ export default class Iphone extends Component {
 
             </div>
 
-        let otherCities = <div> 
-                <div> Other Locations </div>
-                <div>Weather {otherLocationSelected}</div> 
+        let otherCities = <div class = {widget_style.rotatingwidget}> 
+                <div>Tracking: {otherLocationSelected}</div> 
                 <div>{otherLocationDailyTable}</div>
             </div>
 

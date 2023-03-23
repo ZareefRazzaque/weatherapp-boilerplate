@@ -331,12 +331,27 @@ export default class Widget extends Component {
             <div>
 
 
-                {( (clicked === false) && (swap == false )) && (
+                {( (clicked === false) && (swap == false )) && (scrolling === true) && (
                     <div class = {widget_style.box} 
-                        style={{position: "absolute", top: positionY, left:positionX}}
+                        style={{position: "absolute", top: positionY, left:positionX
+                    
+                    }}
                         onMouseDown={this.startclick}
                         onMouseUp={this.checkclick}
-                    >
+                        >
+
+                            {input}
+
+                    </div>
+                )}
+
+                {( (clicked === false) && (swap == false )) && (scrolling === false) && (
+                    <div class = {widget_style.box} 
+                        style={{position: "absolute", top: positionY, left:positionX, transition:"all 0.2s ease-in-out"}}
+                        onMouseDown={this.startclick}
+                        onMouseUp={this.checkclick}
+                        >
+
                             {input}
 
                     </div>
