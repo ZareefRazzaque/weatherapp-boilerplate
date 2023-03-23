@@ -24,9 +24,9 @@ export default class Iphone extends Component {
 		// temperature state
 		this.state.temp = "";
 		// button display state
-		this.setState({
+		this.setState({ 
             display: true,
-            defaultLocation: "London",
+            defaultLocation: "London",  
             otherLocationArrayPos:0
         });
 		this.fetchWeatherData()
@@ -44,12 +44,12 @@ export default class Iphone extends Component {
         this.setup()
         this.OtherLocationsWidgetFunction()
         setInterval(() => { this.OtherLocationsWidgetFunction()
-
+            
         }, 5000);
 
-
+        
 	}
-
+    
 	getDirection = (heading) => {
 		var directions = ["North", "North-East", "East", "South-East", "South", "South-West", "West", "North-West"]
 		var index = Math.round((heading/8)/5,625)
@@ -98,7 +98,7 @@ export default class Iphone extends Component {
 		this.setState({ display: false });
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//place functions here
+	//place functions here 
     parseCoordinates(json){
         var latitude = json[0]["lat"]
         var longatude = json[0]["lon"]
@@ -134,7 +134,7 @@ export default class Iphone extends Component {
 			dataType: "jsonp",
 			success : this.parseUpcommingWeather,
 			error : function(req, err){ console.log('API call failed ' + err); }
-		})
+		}) 
     }
 
     async generateWeeksWeatherDetailed(city){
@@ -147,9 +147,9 @@ export default class Iphone extends Component {
                 date = this.state.locationWeatherData[i]['dt_txt'].slice(0,10)
 
                 array.push(this.state.locationWeatherData[i])
-
+                
                 days.push(new Date(date).getDay())
-
+                
             }
         }
         console.log(days)
@@ -166,7 +166,7 @@ export default class Iphone extends Component {
 
                 </tr>
             ))}
-
+            
 
         </table>
         console.log(table)
@@ -181,13 +181,13 @@ export default class Iphone extends Component {
         let table = <table class = {widget_style.tableEnlarged}>
             {this.state.locationWeatherData.slice(0,8).map(record => (
                 <tr class = {widget_style.enlargedtablerow}>
-
+                    
                     <td class = {widget_style.tableEnlargedtd} >{record['dt_txt'].slice(10,16)}</td>
-
+                    
                     <td class = {widget_style.tableEnlargedtd}>{<img height={40} width ={40} alt="icon" src = {"https://openweathermap.org/img/wn/"+record['weather'][0]['icon']+'.png'} > </img>}</td>
 
                     <td class = {widget_style.tableEnlargedtd}>{record['weather'][0]['main']}</td>
-
+                    
                     <td class = {widget_style.tableEnlargedtd}>{Math.round(record['main']['temp'] -273.15)}°C</td>
 
                 </tr>
@@ -226,9 +226,9 @@ export default class Iphone extends Component {
                 date = this.state.locationWeatherData[i]['dt_txt'].slice(0,10)
 
                 array.push(this.state.locationWeatherData[i])
-
+                
                 days.push(new Date(date).getDay())
-
+                
             }
         }
         console.log(days)
@@ -244,7 +244,7 @@ export default class Iphone extends Component {
 
                 </tr>
             ))}
-
+            
 
         </table>
         console.log(table)
@@ -255,7 +255,7 @@ export default class Iphone extends Component {
 
     async OtherLocationsWidgetFunction(){
         var otherlocations =['Melbourne','Beijing','London','Brasilia']
-
+        
         if (this.state.otherLocationArrayPos+1 >= otherlocations.length ){
             this.setState({
                 otherLocationArrayPos:0
@@ -274,7 +274,7 @@ export default class Iphone extends Component {
             otherLocationDailyTable: await this.generateWeeksWeather(otherlocations[this.state.otherLocationArrayPos])
         })
 
-
+        
     }
 
 
@@ -297,16 +297,16 @@ export default class Iphone extends Component {
         })
         this.setup()
         this.fetchWeatherData()
-
+        
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// the main render method for the iphone component
 	render() {
         const {todaysLocalWeatherTable,todaysLocalWeatherTableDetailed, weeksLocalWeatherTable,weeksLocalWeatherTableDetailed,otherLocationDailyTable,otherLocationSelected ,defaultLocation} = this.state
 
-		let defaultLocationDailySmall  = <div>
-                <div>
-                    {/*Use Api to put default Location here. Add setting fot default location */}
+		let defaultLocationDailySmall  = <div> 
+                <div> 
+                    {/*Use Api to put default Location here. Add setting fot default location */} 
                     {defaultLocation} today
 
 
@@ -316,12 +316,12 @@ export default class Iphone extends Component {
 
                     <div></div>
 
-                </div>
+                </div> 
             </div>
 
-
-        let weekWeather = <div>
-                <div > Weekly Weather </div>
+            
+        let weekWeather = <div> 
+                <div > Weekly Weather </div> 
 
                 <div>
                     {weeksLocalWeatherTable}
@@ -329,13 +329,13 @@ export default class Iphone extends Component {
 
             </div>
 
-        let otherCities = <div class = {widget_style.rotatingwidget}>
-                <div>Tracking: {otherLocationSelected}</div>
+        let otherCities = <div class = {widget_style.rotatingwidget}> 
+                <div>Tracking: {otherLocationSelected}</div> 
                 <div>{otherLocationDailyTable}</div>
             </div>
 
-        let alerts = <div>
-                <div> Weather Alerts</div>
+        let alerts = <div> 
+                <div> Weather Alerts</div> 
                 <div><img src='./../../assets/icons/warning-sign.png' style='width:50px;height:50px;'></img></div>
                 <div>EARTHQUAKE WARNING (under construction)</div>
             </div>
@@ -345,19 +345,20 @@ export default class Iphone extends Component {
             <img src = './../../assets/backgrounds/rain.gif'></img>
         </div>
 
-        let currentTemp = <div>
-				<div> Temperature </div>
-				<span class={ style.temperature }>{ this.state.temp } °</span>
-				<div> Feels like </div>
-				<span class={ style.temperature }>{ this.state.feels_like} °</span>
-				<div>Wind speed</div>
-				<span class={style.temperature}> {this.state.speed} kmh</span>
-				<div>Wind Direction</div>
-				<span class={style.temperature}> {this.state.deg}</span>
-			</div>
+let currentTemp = <div>
+<div> Temperature </div>
+<span class={ style.temperature }>{ this.state.temp } °</span>
+<div> Feels like </div>
+<span class={ style.temperature }>{ this.state.feels_like} °</span>
+<div>Wind speed</div>
+<span class={style.temperature}> {this.state.speed} kmh</span>
+<div>Wind Direction</div>
+<span class={style.temperature}> {this.state.deg}</span>
+</div>
 
 
-        {/*Content of the bubbles*/}
+
+        {/*Content of the bubbles*/} 
 
         let defaultLocationDailyLarge = <div>
 
@@ -389,35 +390,35 @@ export default class Iphone extends Component {
             </div>
         </div>
 
-        let precipitationBubble = <div>
-            <div> Precipitation Level</div>
-            <div></div>
-        </div>
+let precipitationBubble = <div>
+<div> Precipitation Level</div>
+<div></div>
+</div>
 
 
-		// display all weather data
-		return (
-			<div class={ style.container }>
-				<div class= {style.header}>
-					<div class={style.city}>{this.state.locate}</div>
-					<div class={style.conditions}>{this.state.description}</div>
-					{<LocationSelectionButton defaultLocation = {this.state.defaultLocation} function={this.changeDefaultLocation}></LocationSelectionButton>}
-				</div>
+// display all weather data
+return (
+<div class={ style.container }>
+    <div class= {style.header}>
+        <div class={style.city}>{this.state.locate}</div>
+        <div class={style.conditions}>{this.state.description}</div>
+        {<LocationSelectionButton defaultLocation = {this.state.defaultLocation} function={this.changeDefaultLocation}></LocationSelectionButton>}
+    </div>
 
-                <div>
-					{/*custom widgets class here, they require a position   */}
+    <div>
+        {/*custom widgets class here, they require a position   */}
 
-					{<Widget originalheight={200} howleft= {220} input ={currentTemp} clickeddata={null}></Widget>}
-					{<Widget originalheight={200} howleft= {20} input ={defaultLocationDailySmall} clickeddata={defaultLocationDailyLarge}></Widget> }
-					{<Widget originalheight={470} howleft= {220} input ={weekWeather} clickeddata = {weekWeatherEnlarged}></Widget> }
-					{<Widget originalheight={470} howleft= {20} input ={otherCities}  clickeddata={citiesListBubble}></Widget> }
-					{<Widget originalheight={740} howleft= {220} input={alerts} clickeddata={allertsBubble}></Widget> }
-                    {<Widget originalheight={740} howleft= {20} input={precipitation} clickeddata={precipitationBubble}></Widget> }
+        {<Widget originalheight={200} howleft= {220} input ={currentTemp} clickeddata={null}></Widget>}
+        {<Widget originalheight={200} howleft= {20} input ={defaultLocationDailySmall} clickeddata={defaultLocationDailyLarge}></Widget> }
+        {<Widget originalheight={470} howleft= {220} input ={weekWeather} clickeddata = {weekWeatherEnlarged}></Widget> }
+        {<Widget originalheight={470} howleft= {20} input ={otherCities}  clickeddata={citiesListBubble}></Widget> }
+        {<Widget originalheight={740} howleft= {220} input={alerts} clickeddata={allertsBubble}></Widget> }
+        {<Widget originalheight={740} howleft= {20} input={precipitation} clickeddata={precipitationBubble}></Widget> }
 
-				</div>
+    </div>
 
-			</div>
-		);
-	}
+</div>
+);
+}
 
 }
