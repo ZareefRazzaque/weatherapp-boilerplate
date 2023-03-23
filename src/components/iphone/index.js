@@ -342,14 +342,12 @@ export default class Iphone extends Component {
 
         let citiesListBubble = <div>
             <div>
-                <div>Rome</div>
-                <div>Sunny</div>
+                {<Widget originalheight={200} howleft= {20} input ={defaultLocationDailySmall} clickeddata={defaultLocationDailyLarge}></Widget> }
+                {<Widget originalheight={200} howleft= {220} input ={weekWeather} clickeddata = {weekWeatherEnlarged}></Widget> }
+                {<Widget originalheight={470} howleft= {220} input={alerts} clickeddata={allertsBubble}></Widget> }
+                {<Widget originalheight={470} howleft= {20} input={precipitation} clickeddata={precipitationBubble}></Widget> }
             </div>
 
-            <div>
-                <div>Tokyo</div>
-                <div>Sunny</div>
-            </div>
         </div>
 
         let allertsBubble = <div>
