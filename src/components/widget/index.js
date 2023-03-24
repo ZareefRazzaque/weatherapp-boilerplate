@@ -144,7 +144,7 @@ export default class Widget extends Component {
                     })
                 }
             }
-        }, 2500);
+        }, 2000);
     }
     
 
