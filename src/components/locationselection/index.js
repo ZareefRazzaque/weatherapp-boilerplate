@@ -43,7 +43,7 @@ export default class LocationSelectionButton extends Component{
                     scrolling:false
                 })
             }
-        }, 2500);
+        }, 2000);
     }
 
 
