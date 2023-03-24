@@ -222,16 +222,17 @@ export default class Widget extends Component {
             var changeX = endX - this.state.startX
             var changeY = endY - this.state.startY
 
-
+            //checking whether a widget was initially clicked to begin with
             if (((20<this.state.startX)&&(this.state.startX<200))||((220<this.state.startX)&&(this.state.startX<380))){
                 
+                //works out which row was clicked first
                 var checkY = this.state.universalpointY
                 while ((this.state.startY - checkY)>250){
                     checkY= checkY + 270
                 }
                 var startposY = checkY 
 
-
+                //works out whether it was a left or right side widget that was initially clicked 
                 if ((this.state.startY - checkY)>0){
 
                     if ((20<this.state.startX)&&(this.state.startX<200)){
@@ -248,10 +249,10 @@ export default class Widget extends Component {
                         })
                     }
 
+                    //these calclutaions done to work out where the dragged widget finished
                     endX = this.state.startX + changeX
                     endY = this.state.startY + changeY
 
-                    console.log(endX, endY)
 
                     var checkY = this.state.universalpointY
                     while ((endY - checkY)>250){
@@ -266,11 +267,9 @@ export default class Widget extends Component {
                         endX = 20
                     }
                     
-
+                    //if determined to have been dragged over and released, the widget then moves
                     if ((endX == this.state.positionX) && (endposY == this.state.positionY)){
 
-                        console.log("working")
-                        console.log()
                         this.setState({
                             positionY: startposY,
                             positionX: this.state.startX
