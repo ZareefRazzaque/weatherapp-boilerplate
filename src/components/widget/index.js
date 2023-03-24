@@ -276,14 +276,6 @@ export default class Widget extends Component {
                             positionX: this.state.startX
                         })
                     }
-                    
-
-                    /*
-                    this.setState({nd
-                        positionY:checkY,
-                        positionX:this.state.startX
-                    })*/
-
                 }
             } 
         }
@@ -330,7 +322,7 @@ export default class Widget extends Component {
         return(
             <div>
 
-
+                {/*displays the unopened widget, keeping animations off when scrolling */}
                 {( (clicked === false) && (swap == false )) && (scrolling === true) && (
                     <div class = {widget_style.box} 
                         style={{position: "absolute", top: positionY, left:positionX
@@ -345,6 +337,7 @@ export default class Widget extends Component {
                     </div>
                 )}
 
+                {/*same thing as above but allowing animations means smooth animations after rearrangement */}
                 {( (clicked === false) && (swap == false )) && (scrolling === false) && (
                     <div class = {widget_style.box} 
                         style={{position: "absolute", top: positionY, left:positionX, transition:"all 0.2s ease-in-out"}}
@@ -358,7 +351,7 @@ export default class Widget extends Component {
                 )}
 
 
-
+                {/*how the widgets look durning rearrangement */}
                 {(swap === true) && (
                     <div class = {widget_style.rebox} 
                         style={{position: "absolute", top: repositionY, left:repositionX }}
@@ -370,7 +363,7 @@ export default class Widget extends Component {
                     </div>
                 )}
 
-
+                {/*the widgets after being opened */}
                 {( clicked === true ) && (
                     <div class = {widget_style.whole}>
 
