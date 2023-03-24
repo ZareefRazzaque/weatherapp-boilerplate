@@ -77,6 +77,7 @@ export default class LocationSelectionButton extends Component{
         })
     }
 
+    //this calls the function to change the default location
     changeLocation(city){
         this.setState({changing:false})
         this.props.function(city)
@@ -91,7 +92,7 @@ export default class LocationSelectionButton extends Component{
 
         return(
             <div>
-
+                {/*this displays the button to change default location */}
                 {(changing === false)&&(<div class= {locationselction_styles.box} style={{position: "absolute", top: this.state.positionY }}>
                 {defaultLocation}
 
@@ -106,7 +107,9 @@ export default class LocationSelectionButton extends Component{
                     </div>
                 )}
 
+                {/*this shows the map and the locations currently available as a home location */}
                 {(changing === true)&&(
+                    
                     <div >
                         <img class = {locationselction_styles.map} width= {800}  alt = "map" src = './../../assets/worldmap/worldmap.jpg'></img>
                         <img class = {locationselction_styles.location} style={{transform: "translate(57pt, 760%) rotateZ(90deg)"}} width ={40} src='./../../assets/icons/city.png' onClick={() => this.changeLocation("London")}></img>
