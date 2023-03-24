@@ -27,7 +27,8 @@ export default class Iphone extends Component {
 		this.setState({ 
             display: true,
             defaultLocation: "London",  
-            otherLocationArrayPos:0
+            otherLocationArrayPos:0,
+            otherlocations:['Melbourne','Beijing','London','Brasilia']
         });
 		this.fetchWeatherData()
 
@@ -40,12 +41,12 @@ export default class Iphone extends Component {
         this.generateWeeksWeather = this.generateWeeksWeather.bind(this)
         this.generateWeeksWeatherDetailed =this.generateWeeksWeatherDetailed.bind(this)
         this.OtherLocationsWidgetFunction = this.OtherLocationsWidgetFunction.bind(this)
+        this.otherlocationtables()
         this.setup = this.setup.bind(this)
+        this.otherlocationtables= this.otherlocationtables.bind(this)
         this.setup()
-        this.OtherLocationsWidgetFunction()        
-        setInterval(() => { this.OtherLocationsWidgetFunction()
-            
-        }, 5000);
+        this.OtherLocationsWidgetFunction()
+        //setInterval(() => { this.OtherLocationsWidgetFunction()}, 5000);
 
 
         
@@ -153,7 +154,6 @@ export default class Iphone extends Component {
                 
             }
         }
-        console.log(days)
 
         let table = <table class = {widget_style.tableEnlarged}>
             {array.map(record => (
@@ -170,7 +170,6 @@ export default class Iphone extends Component {
             
 
         </table>
-        console.log(table)
 
         return table
     }
@@ -232,7 +231,6 @@ export default class Iphone extends Component {
                 
             }
         }
-        console.log(days)
 
         let table = <table>
             {array.map(record => (
@@ -248,16 +246,14 @@ export default class Iphone extends Component {
             
 
         </table>
-        console.log(table)
 
         return table
     }
 
 
     async OtherLocationsWidgetFunction(){
-        var otherlocations =['Melbourne','Beijing','London','Brasilia']
         
-        if (this.state.otherLocationArrayPos+1 >= otherlocations.length ){
+        if (this.state.otherLocationArrayPos+1 >= this.state.otherlocations.length ){
             this.setState({
                 otherLocationArrayPos:0
             })
@@ -271,11 +267,53 @@ export default class Iphone extends Component {
 
 
         this.setState({
-            otherLocationSelected: otherlocations[this.state.otherLocationArrayPos],
-            otherLocationDailyTable: await this.generateWeeksWeather(otherlocations[this.state.otherLocationArrayPos])
+            otherLocationSelected: this.state.otherlocations[this.state.otherLocationArrayPos],
+            otherLocationDailyTable: await this.generateWeeksWeather(this.state.otherlocations[this.state.otherLocationArrayPos])
         })
 
         
+    }
+
+    async otherlocationtables(){
+        let tableArray = []
+        let array = []
+        var X = 220
+        var Y = -130
+
+        for (var i in this.state.otherlocations){
+            if (X == 220){
+                X = 20
+            }
+            else{
+                X=220
+            }
+
+            if (i%2 ==0){
+            Y = Y+270
+            }
+
+            tableArray.push(await this.generateTodaysWeather(this.state.otherlocations[i]))
+
+            let frountinfo = <div>
+                <div>{this.state.otherlocations[i]}</div>
+                <div>{tableArray[i]}</div>
+            </div>
+
+            console.log(this.state.otherlocations[i])
+            array.push(<Widget originalheight={Y} howleft={X} input={frountinfo} ></Widget> )
+        }
+
+        console.log(array)
+
+        let widgetsToBeAdded = <div>
+            {array.map(widget => (
+                widget
+            ))}
+        </div>
+
+        console.log(widgetsToBeAdded)
+
+        this.setState({widgetsToBeAdded: widgetsToBeAdded}) 
     }
 
 
@@ -288,7 +326,6 @@ export default class Iphone extends Component {
             weeksLocalWeatherTable:await this.generateWeeksWeather(this.state.defaultLocation),
             weeksLocalWeatherTableDetailed:await this.generateWeeksWeatherDetailed(this.state.defaultLocation)
         })
-        console.log(this.state.weeksLocalWeatherTable)
     }
 
 
@@ -303,7 +340,7 @@ export default class Iphone extends Component {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// the main render method for the iphone component
 	render() {
-        const {todaysLocalWeatherTable,todaysLocalWeatherTableDetailed, weeksLocalWeatherTable,weeksLocalWeatherTableDetailed,otherLocationDailyTable,otherLocationSelected ,defaultLocation} = this.state
+        const {todaysLocalWeatherTable,todaysLocalWeatherTableDetailed, weeksLocalWeatherTable,weeksLocalWeatherTableDetailed,otherLocationDailyTable,otherLocationSelected,widgetsToBeAdded ,defaultLocation} = this.state
 
 		let defaultLocationDailySmall  = <div> 
                 <div> 
@@ -378,10 +415,7 @@ let currentTemp = <div>
 
         let citiesListBubble = <div>
             <div>
-                {<Widget originalheight={200} howleft= {20} input ={defaultLocationDailySmall} clickeddata={defaultLocationDailyLarge}></Widget> }
-                {<Widget originalheight={200} howleft= {220} input ={weekWeather} clickeddata = {weekWeatherEnlarged}></Widget> }
-                {<Widget originalheight={470} howleft= {220} input={alerts} clickeddata={alertsBubble}></Widget> }
-                {<Widget originalheight={470} howleft= {20} input={precipitation} clickeddata={precipitationBubble}></Widget> }
+                {widgetsToBeAdded}
             </div>
 
         </div>
